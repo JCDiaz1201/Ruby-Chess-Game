@@ -14,10 +14,7 @@ class GameBoardSetup
 		board_assignments(board_arr)
 	end
 
-	def board_assignments(arg) #pass each playable sector of the board to itw own unique variable
-
-		puts arg 
-		
+	def board_assignments(arg) #pass each playable sector of the board to its own unique variable
 		a1 = arg[1][1]
 		a2 = arg[2][1]
 		a3 = arg[3][1]
