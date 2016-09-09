@@ -113,12 +113,6 @@ class Movement
 		self.game_board.a1 = "*"
 		self.game_board.a2 = "P"
 	end
-
-	def end
-		self.game_board.each do |x|
-			p x
-		end
-	end
 end
 
 player = Movement.new
