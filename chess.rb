@@ -93,10 +93,7 @@ class GameBoardSetup
 
 #		@board_arr.each { |r| p r } #test
 	end
-
 end
-
-
 
 class Movement < GameBoardSetup
 	attr_accessor :game_board
@@ -106,16 +103,28 @@ class Movement < GameBoardSetup
 	end
 
 	def start
-		self.game_board
+		self.game_board.a1 = "P" 								#place pawn in a1 on the board
+		self.game_board.board_arr.each do |x|		#see if placing the pawn there works
+			p x
+		end
 	end
 
 	def move
-		self.game_board
+		self.game_board.a1 = "*"
+		self.game_board.a2 = "P"
+	end
+
+	def end
+		self.game_board.board_arr.each do |x|
+			p x
+		end
 	end
 end
 
 player = Movement.new
 player.start
+#player.move
+#player.end
 
 
 
