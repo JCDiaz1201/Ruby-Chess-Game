@@ -15,6 +15,7 @@ class GameBoardSetup
 	end
 
 	def board_assignments(arg) #pass each playable sector of the board to its own unique variable
+
 		a1 = arg[1][1]
 		a2 = arg[2][1]
 		a3 = arg[3][1]
@@ -86,6 +87,8 @@ class GameBoardSetup
 		h6 = arg[6][8]
 		h7 = arg[7][8]
 		h8 = arg[8][8]
+
+		puts a1
 	end
 end
 
