@@ -105,13 +105,17 @@ class Movement < GameBoardSetup
 		@game_board = GameBoardSetup.new
 	end
 
-	def starting_point
-		self.game_board.pop(h8)
+	def start
+		self.game_board
+	end
+
+	def move
+		self.game_board
 	end
 end
 
-start = Movement.new
-start.starting_point
+player = Movement.new
+player.start
 
 
 
