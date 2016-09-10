@@ -90,8 +90,6 @@ class GameBoardSetup
 		@h6 = board_arr[6][8]
 		@h7 = board_arr[7][8]
 		@h8 = board_arr[8][8]
-
-#		@board_arr.each { |r| p r } #test
 	end
 end
 
@@ -103,16 +101,17 @@ class Movement
 	end
 
 	def start
-		self.game_board.a1 = "P" 								#place pawn in a1 on the board
-		self.game_board.each do |x|		#see if placing the pawn there works
+		self.game_board.a1						#place pawn in a1 on the board
+		self.game_board.a1 = "P"
+		puts_screen
+	end
+
+	def puts_screen
+		self.game_board.board_arr.each do |x|		#see if placing the pawn there works
 			p x
 		end
 	end
 
-	def move
-		self.game_board.a1 = "*"
-		self.game_board.a2 = "P"
-	end
 end
 
 player = Movement.new
