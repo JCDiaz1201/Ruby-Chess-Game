@@ -1,5 +1,5 @@
 class GameBoardSetup
-	attr_accessor :board_arr
+	attr_accessor :board_array, :board_hash
 
 	def initialize
 #			[" ", "A", "B", "C", "D", "E", "F", "G", "H"] #just here to help me visualize the game board
@@ -37,15 +37,14 @@ class GameBoardSetup
 end
 
 class Movement
+	attr_accessor :game_board
 	def initialize
 		@game_board = GameBoardSetup.new
 	end
 
 	def starting_spot
-		start = self.game_board.board_array[:a1]
-		puts start
+		puts self.game_board.board_array.board_hash[:a1]
 	end
-
 end
 
 test1 = Movement.new
