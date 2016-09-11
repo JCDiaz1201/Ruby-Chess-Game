@@ -101,9 +101,9 @@ class Movement
 	end
 
 	def start
-		self.game_board.a1						#place pawn in a1 on the board
-		self.game_board.a1 = "P"
-		puts_screen
+		puts self.game_board.board_arr.a1						#place pawn in a1 on the board
+#		self.game_board.a1 = "P"
+#		puts_screen
 	end
 
 	def puts_screen
