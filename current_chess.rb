@@ -22,7 +22,17 @@ class GameBoardSetup
 	end
 end
 
-
+# here for visualization purposes
+#
+# :a1 :b1 :c1 :d1 :e1 :f1 :g1 :h1
+# :a2 :b2 :c2 :d2 :e2 :f2 :g2 :h2
+# :a3 :b3 :c3 :d3 :e3 :f3 :g3 :h3
+# :a4 :b4 :c4 :d4 :e4 :f4 :g4 :h4
+# :a5 :b5 :c5 :d5 :e5 :f5 :g5 :h5
+# :a6 :b6 :c6 :d6 :e6 :f6 :g6 :h6
+# :a7 :b7 :c7 :d7 :e7 :f7 :g7 :h7
+# :a8 :b8 :c8 :d8 :e8 :f8 :g8 :h8
+#
 
 
 
@@ -30,15 +40,17 @@ class Movement
 	attr_accessor :game_board
 	def initialize
 		@game_board = GameBoardSetup.new
+		@pawn = Piece.new
 	end
 
 	def starting_spot #trying to display key here for testing purposes
-		puts "Please enter a key you would like to amend:"
-		board_pos = gets.chomp!
-#		puts "Please enter a value you would like to enter:"
-#		user_input = gets.chomp!
-		puts self.game_board.board_hash[board_pos.to_sym]
-#		self.game_board.board_hash[board_pos] = user_input
+		puts "Your pawn is located on Spot D2, please enter where you would"
+		puts "like it to be relocated"
+		user_input = gets.chomp!
+
+		self.game_board.board_hash[:d2] = @pawn
+		self.game_board.board_hash[:d2] = ""
+		self.game_board.board_hash[user_input.to_sym] = @pawn
 	end
 
 	def display_board					
@@ -47,9 +59,20 @@ class Movement
 
 end
 
+class Piece
+	attr_accessor :pawn
+
+	def pawn
+	end
+end
+
+
 test1 = Movement.new
 test1.starting_spot
-#test1.display_board
+test1.display_board
+
+
+
 
 
 
