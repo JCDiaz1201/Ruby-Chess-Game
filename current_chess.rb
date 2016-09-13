@@ -40,36 +40,42 @@ class Movement
 	attr_accessor :game_board
 	def initialize
 		@game_board = GameBoardSetup.new
-		@pawn = Piece.new
+		@pawn = Pawn.new
 	end
 
 	def starting_spot #trying to display key here for testing purposes
-		puts "Your pawn is located on Spot D2, please enter where you would"
-		puts "like it to be relocated"
-		user_input = gets.chomp!
-
-		self.game_board.board_hash[:d2] = @pawn
-		self.game_board.board_hash[:d2] = ""
-		self.game_board.board_hash[user_input.to_sym] = @pawn
-	end
-
-	def display_board					
+		self.game_board.board_hash[:d3] = @pawn
 		self.game_board.board_hash.each {|v| puts "#{v}"}
-	end
 
+		puts "Which pawn on the board you like to move?"
+		piece_to_move = gets.chomp!
+
+		if self.game_board.board_hash[piece_to_move.to_sym] = @pawn
+			puts "Where would you like to move said piece?"
+			user_input = gets.chomp!
+			if self.game_board.board_hash[user_input.to_sym] = ""
+				self.game_board.board_hash[user_input.to_sym] = @pawn
+				self.game_board.board_hash[:d3] = ""
+				self.game_board.board_hash.each {|v| puts "#{v}"}
+			else
+				puts "Error"
+				starting_spot
+			end
+		else
+			puts "Error, please select a piece on the board"
+			starting_spot
+		end	
+	end
 end
 
-class Piece
+class Pawn
 	attr_accessor :pawn
-
-	def pawn
-	end
 end
 
 
 test1 = Movement.new
 test1.starting_spot
-test1.display_board
+
 
 
 
