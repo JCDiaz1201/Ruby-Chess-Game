@@ -2,17 +2,6 @@ class GameBoardSetup
 	attr_accessor :board_hash
 
 	def initialize
-#			just here to help me visualize the game board
-#
-#			[" ", "A", "B", "C", "D", "E", "F", "G", "H"] 
-#			["1", "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"]
-#			["2", "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"]
-#			["3", "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3"]
-#			["4", "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4"]
-#			["5", "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5"]
-#			["6", "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"]
-#			["7", "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"]
-#			["8", "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"]
 
 		@board_hash = {
 			:a1 => "", :a2 => "", :a3 => "", :a4 => "", :a5 => "",
@@ -33,6 +22,10 @@ class GameBoardSetup
 	end
 end
 
+
+
+
+
 class Movement
 	attr_accessor :game_board
 	def initialize
@@ -42,10 +35,10 @@ class Movement
 	def starting_spot #trying to display key here for testing purposes
 		puts "Please enter a key you would like to amend:"
 		board_pos = gets.chomp!
-		puts "Please enter a value you would like to enter:"
-		user_input = gets.chomp!
-		self.game_board.board_hash[board_pos]
-		self.game_board.board_hash[board_pos] = user_input
+#		puts "Please enter a value you would like to enter:"
+#		user_input = gets.chomp!
+		puts self.game_board.board_hash[board_pos.to_sym]
+#		self.game_board.board_hash[board_pos] = user_input
 	end
 
 	def display_board					
