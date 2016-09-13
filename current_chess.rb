@@ -49,7 +49,7 @@ end
 
 test1 = Movement.new
 test1.starting_spot
-test1.display_board
+#test1.display_board
 
 
 
