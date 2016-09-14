@@ -40,6 +40,7 @@ end
 
 class Movement
 	attr_accessor :game_board
+
 	def initialize
 		@game_board = GameBoardSetup.new
 	end
@@ -54,10 +55,19 @@ class Movement
 			puts "Please select a valid piece that is in play"
 			starting_spot
 		else
-			puts "Where would you like to move the piece?"
-			piece_to_where = gets.chomp!
-			self.game_board.board_hash[piece_to_where.to_sym] = self.game_board.board_hash[piece_to_move.to_sym]
-			self.game_board.board_hash[piece_to_move.to_sym] = ""
+			end_spot(piece_to_move)
+		end
+	end
+
+	def end_spot(arg)
+		puts "Where would you like to move the piece?"
+		piece_to_where = gets.chomp!
+		if self.game_board.board_hash[piece_to_where.to_sym].nil?
+			puts "Error, please select a valid spot on the board"
+			end_spot(arg)
+		else
+			self.game_board.board_hash[piece_to_where.to_sym] = self.game_board.board_hash[arg.to_sym]
+			self.game_board.board_hash[arg.to_sym] = ""
 			self.game_board.board_hash.each {|v| puts "#{v}"}
 		end
 	end
