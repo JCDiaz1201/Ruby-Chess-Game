@@ -1,16 +1,16 @@
 class GameBoardSetup
-	attr_accessor :board_hash
+	attr_accessor :board_hash, :pawn
 
 	def initialize
-
+		@pawn = Pawn.new
 		@board_hash = {
 			:a1 => "", :a2 => "", :a3 => "", :a4 => "", :a5 => "",
 			:a6 => "", :a7 => "",:a8 => "", :b1 => "", :b2 => "",
 			:b3 => "", :b4 => "", :b5 => "", :b6 => "", :b7 => "",
 			:b8 => "", :c1 => "", :c2 => "", :c3 => "", :c4 => "",
 			:c5 => "", :c6 => "", :c7 => "", :c8 => "",:d1 => "",
-			:d2 => "P", :d3 => "", :d4 => "", :d5 => "", :d6 => "",
-			:d7 => "", :d8 => "", :e1 => "", :e2 => "", :e3 => "",
+			:d2 => "", :d3 => "", :d4 => "", :d5 => "", :d6 => "",
+			:d7 => @pawn, :d8 => "", :e1 => "", :e2 => "", :e3 => "",
 			:e4 => "", :e5 => "", :e6 => "", :e7 => "", :e8 => "",
 			:f1 => "", :f2 => "", :f3 => "", :f4 => "", :f5 => "",
 			:f6 => "", :f7 => "", :f8 => "", :g1 => "", :g2 => "",
@@ -18,6 +18,8 @@ class GameBoardSetup
 			:g8 => "", :h1 => "", :h2 => "", :h3 => "", :h4 => "", 
 			:h5 => "", :h6 => "", :h7 => "", :h8 => ""
 		}
+
+
 
 	end
 end
@@ -40,20 +42,23 @@ class Movement
 	attr_accessor :game_board
 	def initialize
 		@game_board = GameBoardSetup.new
-		@pawn = Pawn.new
 	end
 
 	def starting_spot #trying to display key here for testing purposes
-		self.game_board.board_hash[:d3] = @pawn
 		self.game_board.board_hash.each {|v| puts "#{v}"}
 
 		puts "Please select a pawn on the board..."
 		piece_to_move = gets.chomp!
 
-		if self.game_board.board_hash[piece_to_move.to_sym] = "P"
-			puts true
+		if self.game_board.board_hash[piece_to_move.to_sym] == ""
+			puts "Please select a valid piece that is in play"
+			starting_spot
 		else
-			puts false
+			puts "Where would you like to move the pawn?"
+			piece_to_where = gets.chomp!
+			self.game_board.board_hash[piece_to_where.to_sym] = self.game_board.board_hash[piece_to_move.to_sym]
+			self.game_board.board_hash[piece_to_move.to_sym] = ""
+			self.game_board.board_hash.each {|v| puts "#{v}"}
 		end
 	end
 end
