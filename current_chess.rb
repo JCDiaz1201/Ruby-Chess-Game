@@ -9,7 +9,7 @@ class GameBoardSetup
 			:b3 => "", :b4 => "", :b5 => "", :b6 => "", :b7 => "",
 			:b8 => "", :c1 => "", :c2 => "", :c3 => "", :c4 => "",
 			:c5 => "", :c6 => "", :c7 => "", :c8 => "",:d1 => "",
-			:d2 => "", :d3 => "", :d4 => "", :d5 => "", :d6 => "",
+			:d2 => "P", :d3 => "", :d4 => "", :d5 => "", :d6 => "",
 			:d7 => "", :d8 => "", :e1 => "", :e2 => "", :e3 => "",
 			:e4 => "", :e5 => "", :e6 => "", :e7 => "", :e8 => "",
 			:f1 => "", :f2 => "", :f3 => "", :f4 => "", :f5 => "",
@@ -47,24 +47,14 @@ class Movement
 		self.game_board.board_hash[:d3] = @pawn
 		self.game_board.board_hash.each {|v| puts "#{v}"}
 
-		puts "Which pawn on the board you like to move?"
+		puts "Please select a pawn on the board..."
 		piece_to_move = gets.chomp!
 
-		if self.game_board.board_hash[piece_to_move.to_sym] = @pawn
-			puts "Where would you like to move said piece?"
-			user_input = gets.chomp!
-			if self.game_board.board_hash[user_input.to_sym] = ""
-				self.game_board.board_hash[user_input.to_sym] = @pawn
-				self.game_board.board_hash[:d3] = ""
-				self.game_board.board_hash.each {|v| puts "#{v}"}
-			else
-				puts "Error"
-				starting_spot
-			end
+		if self.game_board.board_hash[piece_to_move.to_sym] = "P"
+			puts true
 		else
-			puts "Error, please select a piece on the board"
-			starting_spot
-		end	
+			puts false
+		end
 	end
 end
 
