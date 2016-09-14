@@ -1,22 +1,27 @@
 class GameBoardSetup
-	attr_accessor :board_hash, :pawn
+	attr_accessor :board_hash, :pawn, :rook, :knight, :bishop, :queen, :king
 
 	def initialize
 		@pawn = Pawn.new
+		@rook = Rook.new
+		@knight = Knight.new
+		@bishop = Bishop.new
+		@queen = Queen.new
+		@king = King.new
 		@board_hash = {
-			:a1 => "", :a2 => "", :a3 => "", :a4 => "", :a5 => "",
-			:a6 => "", :a7 => "",:a8 => "", :b1 => "", :b2 => "",
-			:b3 => "", :b4 => "", :b5 => "", :b6 => "", :b7 => "",
-			:b8 => "", :c1 => "", :c2 => "", :c3 => "", :c4 => "",
-			:c5 => "", :c6 => "", :c7 => "", :c8 => "",:d1 => "",
-			:d2 => "", :d3 => "", :d4 => "", :d5 => "", :d6 => "",
-			:d7 => @pawn, :d8 => "", :e1 => "", :e2 => "", :e3 => "",
-			:e4 => "", :e5 => "", :e6 => "", :e7 => "", :e8 => "",
-			:f1 => "", :f2 => "", :f3 => "", :f4 => "", :f5 => "",
-			:f6 => "", :f7 => "", :f8 => "", :g1 => "", :g2 => "",
-			:g3 => "", :g4 => "", :g5 => "", :g6 => "", :g7 => "",
-			:g8 => "", :h1 => "", :h2 => "", :h3 => "", :h4 => "", 
-			:h5 => "", :h6 => "", :h7 => "", :h8 => ""
+			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*",
+			:a6 => "*", :a7 => @pawn,:a8 => @rook, :b1 => "*", :b2 => "*",
+			:b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => @pawn,
+			:b8 => @knight, :c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*",
+			:c5 => "*", :c6 => "*", :c7 => @pawn, :c8 => @bishop,:d1 => "*",
+			:d2 => "*", :d3 => "*", :d4 => "*", :d5 => "*", :d6 => "*",
+			:d7 => @pawn, :d8 => @king, :e1 => "*", :e2 => "*", :e3 => "*",
+			:e4 => "*", :e5 => "*", :e6 => "*", :e7 => @pawn, :e8 => @queen,
+			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*",
+			:f6 => "*", :f7 => @pawn, :f8 => @bishop, :g1 => "*", :g2 => "*",
+			:g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => @pawn,
+			:g8 => @knight, :h1 => "*", :h2 => "*", :h3 => "*", :h4 => "*", 
+			:h5 => "*", :h6 => "*", :h7 => @pawn, :h8 => @rook
 		}
 
 
@@ -51,7 +56,7 @@ class Movement
 		puts "Please select a pawn on the board..."
 		piece_to_move = gets.chomp!
 
-		if self.game_board.board_hash[piece_to_move.to_sym] == ""
+		if self.game_board.board_hash[piece_to_move.to_sym] == "*"
 			puts "Please select a valid piece that is in play"
 			starting_spot
 		else
@@ -77,6 +82,25 @@ class Pawn
 	attr_accessor :pawn
 end
 
+class Rook
+	attr_accessor :rook
+end
+
+class Knight
+	attr_accessor :knight
+end
+
+class Bishop
+	attr_accessor :bishop
+end
+
+class Queen
+	attr_accessor :queen
+end
+
+class King
+	attr_accessor :king
+end
 
 test1 = Movement.new
 test1.starting_spot
