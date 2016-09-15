@@ -71,6 +71,7 @@ class Movement
 			self.game_board.board_hash[piece_to_where.to_sym] = self.game_board.board_hash[arg.to_sym]
 			self.game_board.board_hash[arg.to_sym] = "*"
 			self.game_board.board_hash.each {|v| puts "#{v}"}
+			starting_spot
 		end
 	end
 
@@ -78,6 +79,7 @@ class Movement
 		self.game_board.board_hash[arg.to_sym] = "*"
 		self.game_board.board_hash[arg2.to_sym] == self.game_board.board_hash[arg.to_sym]
 		self.game_board.board_hash.each {|v| puts "#{v}"}
+		starting_spot
 	end
 end
 
