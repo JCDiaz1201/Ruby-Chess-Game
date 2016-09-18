@@ -11,29 +11,19 @@
 #
 
 class GameBoardSetup
-	attr_accessor :board_hash, :pawn, :rook, :knight, :bishop, :queen, :king
+	attr_accessor :board_hash
 
 	def initialize
-		@pawn = Pawn.new
-		@rook = Rook.new
-		@knight = Knight.new
-		@bishop = Bishop.new
-		@queen = Queen.new
-		@king = King.new
+
 		@board_hash = {
-			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*",
-			:a6 => "*", :a7 => @pawn,:a8 => @rook, :b1 => "*", :b2 => "*",
-			:b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => @pawn,
-			:b8 => @knight, :c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*",
-			:c5 => "*", :c6 => "*", :c7 => @pawn, :c8 => @bishop,:d1 => "*",
-			:d2 => "*", :d3 => "*", :d4 => "*", :d5 => "*", :d6 => "*",
-			:d7 => @pawn, :d8 => @king, :e1 => "*", :e2 => "*", :e3 => "*",
-			:e4 => "*", :e5 => "*", :e6 => "*", :e7 => @pawn, :e8 => @queen,
-			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*",
-			:f6 => "*", :f7 => @pawn, :f8 => @bishop, :g1 => "*", :g2 => "*",
-			:g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => @pawn,
-			:g8 => @knight, :h1 => "*", :h2 => "*", :h3 => "*", :h4 => "*", 
-			:h5 => "*", :h6 => "*", :h7 => @pawn, :h8 => @rook
+			:a1 => "*", :a2 => Pawn.new("a2", "Black"), :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => Pawn.new("a7", "White"), :a8 => "*",
+			:b1 => "*", :b2 => Pawn.new("b2", "Black"), :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => Pawn.new("b7", "White"), :b8 => "*", 
+			:c1 => "*", :c2 => Pawn.new("c2", "Black"), :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => Pawn.new("c7", "White"), :c8 => "*", 
+			:d1 => "*", :d2 => Pawn.new("d2", "Black"), :d3 => "*", :d4 => "*", :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "White"), :d8 => "*",
+			:e1 => "*", :e2 => Pawn.new("e2", "Black"), :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => Pawn.new("e7", "White"), :e8 => "*",
+			:f1 => "*", :f2 => Pawn.new("f2", "Black"), :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => Pawn.new("f7", "White"), :f8 => "*",
+			:g1 => "*", :g2 => Pawn.new("g2", "Black"), :g3 => "*", :g4 => "*", :g5 => "*", :g6 => Pawn.new("h6", "Black"), :g7 => Pawn.new("g7", "White"), :g8 => "*", 
+			:h1 => "*", :h2 => Pawn.new("h2", "Black"), :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => Pawn.new("h7", "White"), :h8 => "*"
 		}
 	end
 end
@@ -47,8 +37,7 @@ class Movement
 
 	def starting_spot #trying to display key here for testing purposes
 		self.game_board.board_hash.each {|v| puts "#{v}"}
-
-		puts "Please select a pawn on the board..."
+		puts "Please select a unit on the board..."
 		piece_to_move = gets.chomp!
 
 		if self.game_board.board_hash[piece_to_move.to_sym] == "*"
@@ -60,18 +49,20 @@ class Movement
 	end
 
 	def end_spot(arg)
-		puts "Where would you like to move the piece?"
+		puts "Where would you like to move the #{self.game_board.board_hash[arg.to_sym].color} #{self.game_board.board_hash[arg.to_sym].name}" 
 		piece_to_where = gets.chomp!
+
 		if self.game_board.board_hash[piece_to_where.to_sym].nil?
 			puts "Error, please select a valid spot on the board"
 			end_spot(arg)
-		elsif self.game_board.board_hash[arg.to_sym] == @pawn; @rook; @knight; @bishop; @queen; @king
-			kill(arg, piece_to_where)
+		elsif self.game_board.board_hash[piece_to_where.to_sym] != "*"
+			kill_test = true
+			self.game_board.board_hash[arg.to_sym].allowed_moves(piece_to_where, @game_board, kill_test)
 		else
-			self.game_board.board_hash[piece_to_where.to_sym] = self.game_board.board_hash[arg.to_sym]
-			self.game_board.board_hash[arg.to_sym] = "*"
-			self.game_board.board_hash.each {|v| puts "#{v}"}
-			starting_spot
+			kill_test = false
+			self.game_board.board_hash[arg.to_sym].allowed_moves(piece_to_where, @game_board, kill_test)
+#			self.game_board.board_hash.each {|v| puts "#{v}"}
+#			starting_spot
 		end
 	end
 
@@ -84,7 +75,67 @@ class Movement
 end
 
 class Pawn
-	attr_accessor :pawn
+	attr_accessor :name, :value, :current_local, :color
+
+	def initialize(current_local, color)
+		@name = Pawn
+		@value = 1
+		@current_local = current_local
+		@color = color
+	end
+
+	def allowed_moves(moving_to, gb_arg, kill_test)
+		if kill_test == true
+			kill_move(moving_to, gb_arg)
+		else
+			regular_move(moving_to, gb_arg)
+		end
+	end
+
+	private
+		def regular_move(moving_to, gb_arg)
+#			puts "regular move working" #test
+#			puts moving_to, gb_arg #test
+
+			if @color == "Black"
+				move = 1
+			else
+				move = -1
+			end
+
+			decstr_beg_local = current_local.split("")
+			decstr_end_local = moving_to.split("")
+			beg_letter, beg_number = decstr_beg_local[0], decstr_beg_local[1]
+			end_letter, end_number = decstr_end_local[0], decstr_end_local[1]
+
+			if beg_letter == end_letter && end_number.to_i == beg_number.to_i + move
+				puts true
+			else
+				puts false
+			end
+		end
+
+		def kill_move(moving_to, gb_arg)
+#			puts "kill move working" #test
+#			puts moving_to, gb_arg #test
+
+			if @color == "Black"
+				move = 1
+			else
+				move = -1
+			end
+
+			decstr_beg_local = current_local.split("")
+			decstr_end_local = moving_to.split("")
+			beg_letter, beg_number = decstr_beg_local[0], decstr_beg_local[1]
+			end_letter, end_number = decstr_end_local[0], decstr_end_local[1]
+
+			if (beg_letter.ord - end_letter.ord).abs == 1 && beg_number.to_i == end_number.to_i + move && self.color != gb_arg.board_hash[moving_to.to_sym].color
+				puts true
+			else
+				puts false
+			end
+		end
 end
 
 class Rook
