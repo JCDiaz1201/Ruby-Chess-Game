@@ -11,3 +11,4 @@ else
 	starting_spot
 end
 
+gb_arg.board_hash[piece_to_where.to_sym].current_local = gb_arg.board_hash[arg]
