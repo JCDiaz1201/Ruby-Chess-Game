@@ -14,7 +14,6 @@ class GameBoardSetup
 	attr_accessor :board_hash
 
 	def initialize
-
 		@board_hash = {
 			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
 			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => "*", :b8 => "*", 
@@ -129,7 +128,7 @@ class Pawn
 				gb_arg.board_hash.each {|v| puts "#{v}"}
 #				call back to test1.end_spot
 			else
-				puts "Please select a valid move for the #{self.color} #{self.name}"
+				puts "Please select a valid attack move for the #{self.color} #{self.name}"
 #				call back to test1.end_spot
 			end
 		end

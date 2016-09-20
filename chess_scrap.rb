@@ -10,3 +10,4 @@ else
 	self.game_board.board_hash.each {|v| puts "#{v}"}
 	starting_spot
 end
+
