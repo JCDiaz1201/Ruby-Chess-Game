@@ -47,8 +47,8 @@ class Movement
 		end
 	end
 
-	def end_spot(arg)
-		puts "Where would you like to move the #{self.game_board.board_hash[arg.to_sym].color} #{self.game_board.board_hash[arg.to_sym].name}"
+	def end_spot(piece_to_move)
+		puts "Where would you like to move the #{self.game_board.board_hash[piece_to_move.to_sym].color} #{self.game_board.board_hash[piece_to_move.to_sym].name}"
 		puts "If you would like to select another piece to move please type in 'another' "
 		piece_to_where = gets.chomp!
 
@@ -56,14 +56,14 @@ class Movement
 			starting_spot
 		elsif self.game_board.board_hash[piece_to_where.to_sym].nil?
 			puts "Error, please select a valid spot on the board"
-			end_spot(arg)
+			end_spot(piece_to_move)
 		elsif self.game_board.board_hash[piece_to_where.to_sym] != "*"
 			kill_test = true
-			self.game_board.board_hash[arg.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, arg)
+			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
 			starting_spot
 		else
 			kill_test = false
-			self.game_board.board_hash[arg.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, arg)
+			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
 			starting_spot
 		end
 	end
@@ -79,16 +79,16 @@ class Pawn
 		@color = color
 	end
 
-	def allowed_moves(piece_to_where, gb_arg, kill_test, arg)
+	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
 		if kill_test == true
-			kill_move(piece_to_where, gb_arg, arg)
+			kill_move(piece_to_where, gb_arg, piece_to_move)
 		else
-			regular_move(piece_to_where, gb_arg, arg)
+			regular_move(piece_to_where, gb_arg, piece_to_move)
 		end
 	end
 
 	private
-		def regular_move(piece_to_where, gb_arg, arg)
+		def regular_move(piece_to_where, gb_arg, piece_to_move)
 
 			if @color == "Black"
 				move = 1
@@ -102,15 +102,15 @@ class Pawn
 			end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
 			if beg_letter == end_letter && end_number.to_i == beg_number.to_i + move
-				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[arg.to_sym]
+				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-				gb_arg.board_hash[arg.to_sym] = "*"
+				gb_arg.board_hash[piece_to_move.to_sym] = "*"
 			else
 				puts "Please select a valid move for the #{self.color} #{self.name}"
 			end
 		end
 
-		def kill_move(piece_to_where, gb_arg, arg)
+		def kill_move(piece_to_where, gb_arg, piece_to_move)
 
 			if @color == "Black"
 				move = 1
@@ -125,9 +125,9 @@ class Pawn
 		
 			if (beg_letter.ord - end_letter.ord).abs == 1 && (beg_number.to_i + move == end_number.to_i) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color)
 				puts "#{self.color} #{self.name} takes #{gb_arg.board_hash[piece_to_where.to_sym].color} #{gb_arg.board_hash[piece_to_where.to_sym].name}"
-				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[arg.to_sym]
+				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-				gb_arg.board_hash[arg.to_sym] = "*"
+				gb_arg.board_hash[piece_to_move.to_sym] = "*"
 			else
 				puts "Please select a valid attack move for the #{self.color} #{self.name}"
 			end
@@ -144,17 +144,22 @@ class Rook
 		@color = color
 	end
 
-	def allowed_moves(piece_to_where, gb_arg, kill_test, arg)
+	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
+
+
 
 		if kill_test == true
-			kill_move(piece_to_where, gb_arg, arg)
+			kill_move(piece_to_where, gb_arg, piece_to_move)
 		else
-			regular_move(piece_to_where, gb_arg, arg)
+			regular_move(piece_to_where, gb_arg, piece_to_move)
 		end
 	end
 
+	def check_moves(piece_to_where, gb_arg, piece_to_move)
+	end
+
 	private
-		def regular_move(piece_to_where, gb_arg, arg)
+		def regular_move(piece_to_where, gb_arg, piece_to_move)
 
 			dcstr_beg_local = current_local.split("")
 			dcstr_end_local = piece_to_where.split("")
@@ -162,15 +167,15 @@ class Rook
 			end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
 			if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
-				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[arg.to_sym]
+				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-				gb_arg.board_hash[arg.to_sym] = "*"
+				gb_arg.board_hash[piece_to_move.to_sym] = "*"
 			else
 				puts "Please select a valid move for the #{self.color} #{self.name}"
 			end
 		end
 
-		def kill_move(piece_to_where, gb_arg, arg)
+		def kill_move(piece_to_where, gb_arg, piece_to_move)
 
 			dcstr_beg_local = current_local.split("")
 			dcstr_end_local = piece_to_where.split("")
@@ -179,9 +184,9 @@ class Rook
 
 			if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color))
 				puts "#{self.color} #{self.name} takes #{gb_arg.board_hash[piece_to_where.to_sym].color} #{gb_arg.board_hash[piece_to_where.to_sym].name}"
-				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[arg.to_sym]
+				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-				gb_arg.board_hash[arg.to_sym] = "*"
+				gb_arg.board_hash[piece_to_move.to_sym] = "*"
 			else
 				puts "Please select a valid attack move for the #{self.color} #{self.name}"
 			end
