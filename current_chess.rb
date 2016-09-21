@@ -15,14 +15,14 @@ class GameBoardSetup
 
 	def initialize
 		@board_hash = {
-			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
-			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => "*", :b8 => "*", 
-			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
-			:d1 => "*", :d2 => "*", :d3 => Pawn.new("d3", "White"), :d4 => "*", :d5 => "*", :d6 => Pawn.new("d6", "Black"), :d7 => "*", :d8 => "*",
-			:e1 => "*", :e2 => Pawn.new("e2", "Black"), :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => Pawn.new("e7", "White"), :e8 => "*",
-			:f1 => "*", :f2 => "*", :f3 => Pawn.new("f3", "White"), :f4 => "*", :f5 => "*", :f6 => Pawn.new("f6", "Black"), :f7 => "*", :f8 => "*",
+			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => Pawn.new("a4", "White"), :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
+			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => Pawn.new("b7", "White"), :b8 => "*", 
+			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => Pawn.new("d1", "Black"), :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
+			:d1 => Pawn.new("d1", "Black"), :d2 => "*", :d3 => "*", :d4 => Rook.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "Black"), :d8 => Pawn.new("d8", "White"),
+			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
+			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => "*", :f8 => "*",
 			:g1 => "*", :g2 => "*", :g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
-			:h1 => "*", :h2 => "*", :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => "*", :h8 => "*"
+			:h1 => "*", :h2 => "*", :h3 => "*", :h4 => Pawn.new("h4", "White"), :h5 => "*", :h6 => "*", :h7 => "*", :h8 => "*"
 		}
 	end
 end
@@ -135,7 +135,57 @@ class Pawn
 end
 
 class Rook
-	attr_accessor :rook
+	attr_accessor :name, :value, :current_local, :color
+
+	def initialize(current_local, color)
+		@name = Rook
+		@value = 5
+		@current_local = current_local
+		@color = color
+	end
+
+	def allowed_moves(piece_to_where, gb_arg, kill_test, arg)
+		if kill_test == true
+			kill_move(piece_to_where, gb_arg, arg)
+		else
+			regular_move(piece_to_where, gb_arg, arg)
+		end
+	end
+
+	private
+		def regular_move(piece_to_where, gb_arg, arg)
+
+			dcstr_beg_local = current_local.split("")
+			dcstr_end_local = piece_to_where.split("")
+			beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+			end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+
+			if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
+				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[arg.to_sym]
+				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+				gb_arg.board_hash[arg.to_sym] = "*"
+			else
+				puts "Please select a valid move for the #{self.color} #{self.name}"
+			end
+		end
+
+		def kill_move(piece_to_where, gb_arg, arg)
+
+			dcstr_beg_local = current_local.split("")
+			dcstr_end_local = piece_to_where.split("")
+			beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+			end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+
+			if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color))
+				puts "#{self.color} #{self.name} takes #{gb_arg.board_hash[piece_to_where.to_sym].color} #{gb_arg.board_hash[piece_to_where.to_sym].name}"
+				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[arg.to_sym]
+				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+				gb_arg.board_hash[arg.to_sym] = "*"
+			else
+				puts "Please select a valid attack move for the #{self.color} #{self.name}"
+			end
+		end
+
 end
 
 class Knight
