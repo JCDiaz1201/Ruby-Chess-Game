@@ -73,20 +73,21 @@ class Pawn
 	attr_accessor :name, :value, :current_local, :color
 
 	def initialize(current_local, color)
-		@name = Pawn
+		@name = "Pawn"
 		@value = 1
 		@current_local = current_local
 		@color = color
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new
+
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
 			kill_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new	
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
 			regular_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| (gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
@@ -149,20 +150,21 @@ class Rook
 	attr_accessor :name, :value, :current_local, :color
 
 	def initialize(current_local, color)
-		@name = Rook
+		@name = "Rook"
 		@value = 5
 		@current_local = current_local
 		@color = color
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new # LOOK HERE
+
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
 			kill_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new	
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
 			regular_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| (gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
