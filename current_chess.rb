@@ -85,10 +85,6 @@ class Pawn
 			kill_move(piece_to_where, gb_arg, piece_to_move)
 		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
 			regular_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
-			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| (gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
-			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
 			exit
@@ -158,11 +154,7 @@ class Rook
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
 
-		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
-			kill_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
-			regular_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
 		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| (gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
