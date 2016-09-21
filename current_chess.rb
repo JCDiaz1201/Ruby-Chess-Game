@@ -80,11 +80,22 @@ class Pawn
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-		if kill_test == true
+		if kill_test == true && piece_to_move == Pawn.new, King.new, Knight.new
 			kill_move(piece_to_where, gb_arg, piece_to_move)
-		else
+		elsif kill_test == false piece_to_move == Pawn.new, King.new, Knight.new	
 			regular_move(piece_to_where, gb_arg, piece_to_move)
+		elsif kill_test == true && piece_to_move == Rook.new, Bishop.new, Queen.new
+			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
+		elsif kill_test == false && piece_to_move == Rook.new, Bishop.new, Queen.new
+			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
+		else
+			puts "Error"
+			exit
 		end
+	end
+
+	def allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
+		puts true
 	end
 
 	private
@@ -145,17 +156,22 @@ class Rook
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-
-
-
-		if kill_test == true
+		if kill_test == true && piece_to_move == Pawn.new, King.new, Knight.new
 			kill_move(piece_to_where, gb_arg, piece_to_move)
-		else
+		elsif kill_test == false piece_to_move == Pawn.new, King.new, Knight.new	
 			regular_move(piece_to_where, gb_arg, piece_to_move)
+		elsif kill_test == true && piece_to_move == Rook.new, Bishop.new, Queen.new
+			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
+		elsif kill_test == false && piece_to_move == Rook.new, Bishop.new, Queen.new
+			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
+		else
+			puts "Error"
+			exit
 		end
 	end
 
-	def check_moves(piece_to_where, gb_arg, piece_to_move)
+	def allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
+		puts true
 	end
 
 	private
