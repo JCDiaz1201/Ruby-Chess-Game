@@ -146,10 +146,6 @@ class Rook
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, arg)
 
-
-
-
-
 		if kill_test == true
 			kill_move(piece_to_where, gb_arg, arg)
 		else
@@ -209,8 +205,8 @@ class King
 	attr_accessor :name, :value, :current_local, :color
 end
 
-test1 = Movement.new
-test1.starting_spot
+game = Movement.new
+game.starting_spot
 
 
 
