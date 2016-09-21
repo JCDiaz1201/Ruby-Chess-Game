@@ -145,6 +145,11 @@ class Rook
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, arg)
+
+
+
+
+
 		if kill_test == true
 			kill_move(piece_to_where, gb_arg, arg)
 		else
@@ -189,19 +194,19 @@ class Rook
 end
 
 class Knight
-	attr_accessor :knight
+	attr_accessor :name, :value, :current_local, :color
 end
 
 class Bishop
-	attr_accessor :bishop
+	attr_accessor :name, :value, :current_local, :color
 end
 
 class Queen
-	attr_accessor :queen
+	attr_accessor :name, :value, :current_local, :color
 end
 
 class King
-	attr_accessor :king
+	attr_accessor :name, :value, :current_local, :color
 end
 
 test1 = Movement.new
