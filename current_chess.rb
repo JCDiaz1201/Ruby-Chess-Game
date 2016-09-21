@@ -80,13 +80,13 @@ class Pawn
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-		if kill_test == true && piece_to_move == Pawn.new, King.new, Knight.new
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new
 			kill_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false piece_to_move == Pawn.new, King.new, Knight.new	
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new	
 			regular_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == true && piece_to_move == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && piece_to_move == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
@@ -156,13 +156,13 @@ class Rook
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-		if kill_test == true && piece_to_move == Pawn.new, King.new, Knight.new
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new
 			kill_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false piece_to_move == Pawn.new, King.new, Knight.new	
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Pawn.new, King.new, Knight.new	
 			regular_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == true && piece_to_move == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == true && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && piece_to_move == Rook.new, Bishop.new, Queen.new
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym] == Rook.new, Bishop.new, Queen.new
 			allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
