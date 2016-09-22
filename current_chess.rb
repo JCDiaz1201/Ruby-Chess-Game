@@ -15,14 +15,14 @@ class GameBoardSetup
 
 	def initialize
 		@board_hash = {
-			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => Pawn.new("a4", "White"), :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
+			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
 			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => Pawn.new("b7", "White"), :b8 => "*", 
-			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => Pawn.new("d1", "Black"), :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
-			:d1 => Pawn.new("d1", "Black"), :d2 => "*", :d3 => "*", :d4 => Rook.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "Black"), :d8 => Pawn.new("d8", "White"),
+			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
+			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => Rook.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "Black"), :d8 => Pawn.new("d8", "White"),
 			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
 			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => "*", :f8 => "*",
 			:g1 => "*", :g2 => "*", :g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
-			:h1 => "*", :h2 => "*", :h3 => "*", :h4 => Pawn.new("h4", "White"), :h5 => "*", :h6 => "*", :h7 => "*", :h8 => "*"
+			:h1 => "*", :h2 => "*", :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => "*", :h8 => "*"
 		}
 	end
 end
@@ -81,9 +81,9 @@ class Pawn
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
 
-		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == "King" || gb_arg.board_hash[piece_to_move.to_sym] == "Knight"
 			kill_move(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "King" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Knight"
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == "Pawn" #|| gb_arg.board_hash[piece_to_move.to_sym] == "King" || gb_arg.board_hash[piece_to_move.to_sym] == "Knight"
 			regular_move(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
@@ -150,9 +150,9 @@ class Rook
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
 
-		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == "Queen"
 			kill_move_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == gb_arg.board_hash[piece_to_move.to_sym].name = "Rook" #|| (gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == gb_arg.board_hash[piece_to_move.to_sym].name = "Queen"
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == "Rook" #|| (gb_arg.board_hash[piece_to_move.to_sym] == "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == "Queen"
 			regular_move_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
@@ -161,7 +161,6 @@ class Rook
 	end
 
 	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
-		puts "Reg Move"
 
 		move_array = []
 		dcstr_beg_local = current_local.split("")
@@ -169,10 +168,29 @@ class Rook
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-		if ((beg_number > end_number || beg_number < end_number) && (beg_letter == end_letter))
-			puts "Same column"
+		if ((beg_number.to_i > end_number.to_i || beg_number.to_i < end_number.to_i) && (beg_letter.to_i == end_letter.to_i))
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			if traverse_num >= 2
+				puts "Column worked"
+				puts traverse_num
+				count = 0
+				while traverse_num > count
+					count += 1
+					puts count
+				end
+			else
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
 		else
-			puts "Same row"
+			traverse_num = (beg_letter.ord - end_letter.ord).abs
+			if traverse_num >= 2
+				puts "Row worked"
+
+			else 
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
 		end
 #		move_array.push(gb_arg.board_hash[piece_to_move.to_sym].name)
 	end

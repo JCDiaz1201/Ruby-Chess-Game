@@ -32,3 +32,28 @@ gb_arg.board_hash[piece_to_where.to_sym].current_local =
 	def allowed_moves_test(piece_to_where, gb_arg, piece_to_move)
 		puts true
 	end
+
+
+
+
+	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
+		puts "Reg Move"
+
+		move_array = []
+		dcstr_beg_local = current_local.split("")
+		dcstr_end_local = piece_to_where.split("")
+		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+
+		if ((beg_number > end_number || beg_number < end_number) && (beg_letter == end_letter))
+			
+		else
+			puts "Same row"
+		end
+#		move_array.push(gb_arg.board_hash[piece_to_move.to_sym].name)
+	end
+
+
+
+
+	
