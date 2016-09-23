@@ -18,11 +18,11 @@ class GameBoardSetup
 			:a1 => "*", :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
 			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => Pawn.new("b7", "White"), :b8 => "*", 
 			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
-			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => Rook.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "Black"), :d8 => Pawn.new("d8", "White"),
+			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => Rook.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "Black"), :d8 => Rook.new("d8", "White"),
 			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
 			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => "*", :f8 => "*",
 			:g1 => "*", :g2 => "*", :g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
-			:h1 => "*", :h2 => "*", :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => "*", :h8 => "*"
+			:h1 => Rook.new("h1", "Black"), :h2 => "*", :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => Pawn.new("h7", "Black"), :h8 => "*"
 		}
 	end
 end
@@ -168,15 +168,43 @@ class Rook
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-		if ((beg_number.to_i > end_number.to_i || beg_number.to_i < end_number.to_i) && (beg_letter.to_i == end_letter.to_i))
+		if ((beg_number.to_i > end_number.to_i) && (beg_letter.to_i == end_letter.to_i)) #check to see if the move reuqestes is a column move downward
+			traverse_num = (beg_number.to_i - end_number.to_i).abs #check to see if the move is equal to or larger than 2
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				while traverse_num > count 
+					count += 1
+					new_number = new_number - 1
+					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym]) #convert the movements to symbols from the hash, then push to the array
+				end
+				move_array.each do |x| #check the array
+					if x != "*"
+						puts "error, a piece is in front." #if there is anything between beg - end throw an error
+					else
+						regular_move(piece_to_where, gb_arg, piece_to_move) #call regular move function if there is nothing, may have a problem here
+					end
+				end
+			else
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif (beg_number.to_i < end_number.to_i) && (beg_letter.to_i == end_letter.to_i)
 			traverse_num = (beg_number.to_i - end_number.to_i).abs
 			if traverse_num >= 2
-				puts "Column worked"
-				puts traverse_num
-				count = 0
+				count = 1
+				new_number = beg_number.to_i
 				while traverse_num > count
 					count += 1
-					puts count
+					new_number = new_number + 1
+					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+					else
+						regular_move(piece_to_where, gb_arg, piece_to_move)
+					end
 				end
 			else
 				regular_move(piece_to_where, gb_arg, piece_to_move)
@@ -186,55 +214,50 @@ class Rook
 			traverse_num = (beg_letter.ord - end_letter.ord).abs
 			if traverse_num >= 2
 				puts "Row worked"
-
 			else 
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
-
 		end
-#		move_array.push(gb_arg.board_hash[piece_to_move.to_sym].name)
 	end
 
 	def kill_move_test(piece_to_where, gb_arg, piece_to_move)
 		puts "Kill Move"
 		kill_array = []
 		kill_array.push(gb_arg.board_hash[piece_to_move.to_sym].name)
-
 	end
 
-	private
-		def regular_move(piece_to_where, gb_arg, piece_to_move)
+	def regular_move(piece_to_where, gb_arg, piece_to_move)
 
-			dcstr_beg_local = current_local.split("")
-			dcstr_end_local = piece_to_where.split("")
-			beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
-			end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+		dcstr_beg_local = current_local.split("")
+		dcstr_end_local = piece_to_where.split("")
+		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-			if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
-				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
-				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-				gb_arg.board_hash[piece_to_move.to_sym] = "*"
-			else
-				puts "Please select a valid move for the #{self.color} #{self.name}"
-			end
+		if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
+			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
+			puts gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+			gb_arg.board_hash[piece_to_move.to_sym] = "*"
+		else
+			puts "Please select a valid move for the #{self.color} #{self.name}"
 		end
+	end
 
-		def kill_move(piece_to_where, gb_arg, piece_to_move)
+	def kill_move(piece_to_where, gb_arg, piece_to_move)
 
-			dcstr_beg_local = current_local.split("")
-			dcstr_end_local = piece_to_where.split("")
-			beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
-			end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+		dcstr_beg_local = current_local.split("")
+		dcstr_end_local = piece_to_where.split("")
+		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-			if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color))
-				puts "#{self.color} #{self.name} takes #{gb_arg.board_hash[piece_to_where.to_sym].color} #{gb_arg.board_hash[piece_to_where.to_sym].name}"
-				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
-				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-				gb_arg.board_hash[piece_to_move.to_sym] = "*"
-			else
-				puts "Please select a valid attack move for the #{self.color} #{self.name}"
-			end
+		if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color))
+			puts "#{self.color} #{self.name} takes #{gb_arg.board_hash[piece_to_where.to_sym].color} #{gb_arg.board_hash[piece_to_where.to_sym].name}"
+			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
+			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+			gb_arg.board_hash[piece_to_move.to_sym] = "*"
+		else
+			puts "Please select a valid attack move for the #{self.color} #{self.name}"
 		end
+	end
 
 end
 
