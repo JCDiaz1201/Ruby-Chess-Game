@@ -219,7 +219,7 @@ class Rook
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
 
-		elsif 
+		else
 			traverse_num = (beg_letter.ord - end_letter.ord).abs
 			if traverse_num >= 2
 				puts "Row worked"
@@ -243,10 +243,8 @@ class Rook
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
 		if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
-			puts piece_to_move
-			puts piece_to_where
 			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
-			#gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
 			gb_arg.board_hash[piece_to_move.to_sym] = "*"
 		else
 			puts "Please select a valid move for the #{self.color} #{self.name}"
