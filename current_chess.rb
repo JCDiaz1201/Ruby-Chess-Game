@@ -162,6 +162,7 @@ class Rook
 
 	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
 
+		error_test = false
 		move_array = []
 		dcstr_beg_local = current_local.split("")
 		dcstr_end_local = piece_to_where.split("")
@@ -181,9 +182,13 @@ class Rook
 				move_array.each do |x| #check the array
 					if x != "*"
 						puts "error, a piece is in front." #if there is anything between beg - end throw an error
+						error_test = true
 					else
-						regular_move(piece_to_where, gb_arg, piece_to_move) #call regular move function if there is nothing, may have a problem here
+						error_test = false
 					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
 			else
 				regular_move(piece_to_where, gb_arg, piece_to_move)
@@ -202,15 +207,19 @@ class Rook
 				move_array.each do |x|
 					if x != "*"
 						puts "error, a piece is in front."
+						error_test = true
 					else
-						regular_move(piece_to_where, gb_arg, piece_to_move)
+						error_test = false
 					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
 			else
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
 
-		else
+		elsif 
 			traverse_num = (beg_letter.ord - end_letter.ord).abs
 			if traverse_num >= 2
 				puts "Row worked"
@@ -234,8 +243,10 @@ class Rook
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
 		if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
+			puts piece_to_move
+			puts piece_to_where
 			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
-			puts gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+			#gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
 			gb_arg.board_hash[piece_to_move.to_sym] = "*"
 		else
 			puts "Please select a valid move for the #{self.color} #{self.name}"
