@@ -46,14 +46,49 @@ gb_arg.board_hash[piece_to_where.to_sym].current_local =
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
 		if ((beg_number > end_number || beg_number < end_number) && (beg_letter == end_letter))
-			
+			if (beg_number - end_number).abs > 2
+				puts ""
+			else
+				#place function
+			end
 		else
-			puts "Same row"
+			if (beg_letter.ord - end_letter.ord).abs > 2
+				puts ""
+			else 
+				#place function
+			end
 		end
 #		move_array.push(gb_arg.board_hash[piece_to_move.to_sym].name)
 	end
 
 
 
+		def regular_move(piece_to_where, gb_arg, piece_to_move)
 
-	
+			if @color == "Black"
+				move = 1
+			else
+				move = -1
+			end
+
+			dcstr_beg_local = current_local.split("")
+			dcstr_end_local = piece_to_where.split("")
+			beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+			end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+
+			if beg_letter == end_letter && end_number.to_i == beg_number.to_i + move
+				gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
+				gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+				gb_arg.board_hash[piece_to_move.to_sym] = "*"
+			else
+				puts "Please select a valid move for the #{self.color} #{self.name}"
+			end
+		end
+
+
+
+
+
+
+
+

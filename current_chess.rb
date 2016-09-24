@@ -21,7 +21,7 @@ class GameBoardSetup
 			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => Rook.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "Black"), :d8 => Rook.new("d8", "White"),
 			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
 			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => "*", :f8 => "*",
-			:g1 => "*", :g2 => "*", :g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
+			:g1 => "*", :g2 => "*", :g3 => "*", :g4 => Rook.new("g4", "White"), :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
 			:h1 => Rook.new("h1", "Black"), :h2 => "*", :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => Pawn.new("h7", "Black"), :h8 => "*"
 		}
 	end
@@ -172,7 +172,7 @@ class Rook
 		if ((beg_number.to_i > end_number.to_i) && (beg_letter.to_i == end_letter.to_i)) #check to see if the move reuqestes is a column move downward
 			traverse_num = (beg_number.to_i - end_number.to_i).abs #check to see if the move is equal to or larger than 2
 			if traverse_num >= 2
-				count = 1
+				count = 1 # needs to be set so the iterator doesn't check the place where the rook is to move
 				new_number = beg_number.to_i
 				while traverse_num > count 
 					count += 1
@@ -219,10 +219,52 @@ class Rook
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
 
-		else
+		elsif (beg_letter.ord).to_i > (end_letter.ord).to_i #decreasing
 			traverse_num = (beg_letter.ord - end_letter.ord).abs
-			if traverse_num >= 2
-				puts "Row worked"
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter - 1
+					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else 
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		else
+			traverse_num = ((beg_letter.ord).to_i - (end_letter.ord).to_i).abs
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter + 1
+					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
 			else 
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
