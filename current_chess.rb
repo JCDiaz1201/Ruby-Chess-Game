@@ -194,7 +194,7 @@ class Rook
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
 
-		elsif (beg_number.to_i < end_number.to_i) && (beg_letter.to_i == end_letter.to_i)
+		elsif (beg_number.to_i < end_number.to_i) && (beg_letter.to_i == end_letter.to_i) # Column Movement
 			traverse_num = (beg_number.to_i - end_number.to_i).abs
 			if traverse_num >= 2
 				count = 1
@@ -219,7 +219,7 @@ class Rook
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
 
-		elsif (beg_letter.ord).to_i > (end_letter.ord).to_i #decreasing
+		elsif (beg_letter.ord).to_i > (end_letter.ord).to_i # Row movement, decreasing
 			traverse_num = (beg_letter.ord - end_letter.ord).abs
 			if traverse_num >= 2	
 				count = 1
@@ -245,7 +245,7 @@ class Rook
 			end
 
 		else
-			traverse_num = ((beg_letter.ord).to_i - (end_letter.ord).to_i).abs
+			traverse_num = ((beg_letter.ord).to_i - (end_letter.ord).to_i).abs # Row movement, increasing
 			if traverse_num >= 2	
 				count = 1
 				new_letter = (beg_letter.ord).to_i
@@ -272,9 +272,114 @@ class Rook
 	end
 
 	def kill_move_test(piece_to_where, gb_arg, piece_to_move)
-		puts "Kill Move"
 		kill_array = []
-		kill_array.push(gb_arg.board_hash[piece_to_move.to_sym].name)
+		error_test = false
+		kill_array = []
+		dcstr_beg_local = current_local.split("")
+		dcstr_end_local = piece_to_where.split("")
+		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+
+		if ((beg_number.to_i > end_number.to_i) && (beg_letter.to_i == end_letter.to_i)) #check to see if the move reuqestes is a column move downward
+			traverse_num = (beg_number.to_i - end_number.to_i).abs #check to see if the move is equal to or larger than 2
+			if traverse_num >= 2
+				count = 1 # needs to be set so the iterator doesn't check the place where the rook is to move
+				new_number = beg_number.to_i
+				while traverse_num > count 
+					count += 1
+					new_number = new_number - 1
+					kill_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym]) #convert the movements to symbols from the hash, then push to the array
+				end
+				kill_array.each do |x| #check the array
+					if x != "*"
+						puts "error, a piece is in front." #if there is anything between beg - end throw an error
+						error_test = true
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif (beg_number.to_i < end_number.to_i) && (beg_letter.to_i == end_letter.to_i) # Column Movement
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number + 1
+					kill_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif (beg_letter.ord).to_i > (end_letter.ord).to_i # Row movement, decreasing
+			traverse_num = (beg_letter.ord - end_letter.ord).abs
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter - 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else 
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		else
+			traverse_num = ((beg_letter.ord).to_i - (end_letter.ord).to_i).abs # Row movement, increasing
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter + 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else 
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+		end
 	end
 
 	def regular_move(piece_to_where, gb_arg, piece_to_move)
