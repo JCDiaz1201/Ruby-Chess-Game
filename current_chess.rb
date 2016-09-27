@@ -19,7 +19,7 @@ class GameBoardSetup
 			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => Pawn.new("b7", "White"), :b8 => "*", 
 			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
 			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => Rook.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "Black"), :d8 => Rook.new("d8", "White"),
-			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
+			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => Rook.new("g4", "Black"), :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
 			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => "*", :f8 => "*",
 			:g1 => "*", :g2 => "*", :g3 => "*", :g4 => Rook.new("g4", "White"), :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
 			:h1 => Rook.new("h1", "Black"), :h2 => "*", :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => Pawn.new("h7", "Black"), :h8 => "*"
@@ -160,6 +160,17 @@ class Rook
 		end
 	end
 
+	def traverse_checker(array_arg, error_test)
+			array_arg.each do |x| #check the array
+			if x != "*"
+				puts "error, a piece is in front." #if there is anything between beg - end throw an error
+				error_test = true
+			else
+				error_test = false
+			end
+		end
+	end
+
 	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
 
 		error_test = false
@@ -179,14 +190,7 @@ class Rook
 					new_number = new_number - 1
 					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym]) #convert the movements to symbols from the hash, then push to the array
 				end
-				move_array.each do |x| #check the array
-					if x != "*"
-						puts "error, a piece is in front." #if there is anything between beg - end throw an error
-						error_test = true
-					else
-						error_test = false
-					end
-				end
+				traverse_checker(move_array, error_test)
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
@@ -204,14 +208,7 @@ class Rook
 					new_number = new_number + 1
 					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
 				end
-				move_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-					else
-						error_test = false
-					end
-				end
+				traverse_checker(move_array, error_test)
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
@@ -229,14 +226,7 @@ class Rook
 					new_letter = new_letter - 1
 					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
 				end
-				move_array.each do |x|
-					if x != "*"
-						puts "Error, there is a piece in front."
-						error_test = true
-					else
-						error_test = false
-					end
-				end
+				traverse_checker(move_array, error_test)
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
@@ -254,20 +244,29 @@ class Rook
 					new_letter = new_letter + 1
 					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
 				end
-				move_array.each do |x|
-					if x != "*"
-						puts "Error, there is a piece in front."
-						error_test = true
-					else
-						error_test = false
-					end
-				end
+				traverse_checker(move_array, error_test)
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
 			else 
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
+		end
+	end
+
+	def regular_move(piece_to_where, gb_arg, piece_to_move)
+
+		dcstr_beg_local = current_local.split("")
+		dcstr_end_local = piece_to_where.split("")
+		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+
+		if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
+			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
+			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+			gb_arg.board_hash[piece_to_move.to_sym] = "*"
+		else
+			puts "Please select a valid move for the #{self.color} #{self.name}"
 		end
 	end
 
@@ -379,22 +378,6 @@ class Rook
 			else 
 				kill_move(piece_to_where, gb_arg, piece_to_move)
 			end
-		end
-	end
-
-	def regular_move(piece_to_where, gb_arg, piece_to_move)
-
-		dcstr_beg_local = current_local.split("")
-		dcstr_end_local = piece_to_where.split("")
-		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
-		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
-
-		if (beg_letter == end_letter) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)) || ((end_number.to_i == beg_number.to_i) && ((end_letter.ord) >= 97 && (end_letter.ord <= 104)))
-			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
-			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-			gb_arg.board_hash[piece_to_move.to_sym] = "*"
-		else
-			puts "Please select a valid move for the #{self.color} #{self.name}"
 		end
 	end
 
