@@ -160,17 +160,8 @@ class Rook
 		end
 	end
 
-	def traverse_checker(array_arg, error_test)
-			array_arg.each do |x| #check the array
-				if x != "*"
-					puts "error, a piece is in front." #if there is anything between beg - end throw an error
-					error_test = true
-					return error_test
-				end
-			end
-	end
-
 	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
+
 		error_test = false
 		move_array = []
 		dcstr_beg_local = current_local.split("")
@@ -188,7 +179,14 @@ class Rook
 					new_number = new_number - 1
 					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym]) #convert the movements to symbols from the hash, then push to the array
 				end
-				traverse_checker(move_array, error_test)
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
@@ -206,7 +204,14 @@ class Rook
 					new_number = new_number + 1
 					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
 				end
-				traverse_checker(move_array, error_test)
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
@@ -224,7 +229,14 @@ class Rook
 					new_letter = new_letter - 1
 					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
 				end
-				traverse_checker(move_array, error_test)
+				move_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
@@ -242,7 +254,14 @@ class Rook
 					new_letter = new_letter + 1
 					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
 				end
-				traverse_checker(move_array, error_test)
+				move_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+					else
+						error_test = false
+					end
+				end
 				if error_test == false
 					regular_move(piece_to_where, gb_arg, piece_to_move)
 				end
@@ -397,11 +416,29 @@ class Rook
 	end
 end
 
-class Knight
+class Bishop
 	attr_accessor :name, :value, :current_local, :color
+
+	def initialize(current_local, color)
+		@name = "Bishop"
+		@value = 3
+		@current_local = current_local
+		@color = color
+	end
+
+	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == "Bishop" 
+			kill_move(piece_to_where, gb_arg, piece_to_move)
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == "Bishop" 
+			regular_move(piece_to_where, gb_arg, piece_to_move)
+		else
+			puts "Error"
+			exit
+		end
+	end
 end
 
-class Bishop
+class Knight
 	attr_accessor :name, :value, :current_local, :color
 end
 
