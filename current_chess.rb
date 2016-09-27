@@ -162,17 +162,15 @@ class Rook
 
 	def traverse_checker(array_arg, error_test)
 			array_arg.each do |x| #check the array
-			if x != "*"
-				puts "error, a piece is in front." #if there is anything between beg - end throw an error
-				error_test = true
-			else
-				error_test = false
+				if x != "*"
+					puts "error, a piece is in front." #if there is anything between beg - end throw an error
+					error_test = true
+					return error_test
+				end
 			end
-		end
 	end
 
 	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
-
 		error_test = false
 		move_array = []
 		dcstr_beg_local = current_local.split("")
@@ -397,7 +395,6 @@ class Rook
 			puts "Please select a valid attack move for the #{self.color} #{self.name}"
 		end
 	end
-
 end
 
 class Knight
