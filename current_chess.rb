@@ -15,10 +15,10 @@ class GameBoardSetup
 
 	def initialize
 		@board_hash = {
-			:a1 => Bishop.new("a1", "Black"), :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
+			:a1 => Bishop.new("a1", "White"), :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => Bishop.new("a8", "White"),
 			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => "*", :b8 => "*", 
 			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
-			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => Pawn.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => "*", :d8 => "*",
+			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => Bishop.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => "*", :d8 => "*",
 			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
 			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => "*", :f8 => "*",
 			:g1 => "*", :g2 => Pawn.new("g2", "Black"), :g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
@@ -564,7 +564,7 @@ class Bishop
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
 		else
-			puts "Something went wrong"
+			puts "Invalid move for the #{self.name} #{self.color}"
 		end
 	end
 
@@ -574,9 +574,14 @@ class Bishop
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-		gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
-		gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-		gb_arg.board_hash[piece_to_move.to_sym] = "*"
+
+		if (((beg_letter.ord).to_i < (end_letter.ord).to_i) && ((end_number.to_i >= 1) && (end_number.to_i <= 8))) || (((beg_letter.ord).to_i > (end_letter.ord).to_i) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)))
+			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
+			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+			gb_arg.board_hash[piece_to_move.to_sym] = "*"
+		else
+			puts "Invalid move for the #{self.name} #{self.color}"
+		end
 	end
 
 	def kill_move_test(piece_to_where, gb_arg, piece_to_move)
@@ -590,11 +595,11 @@ class Bishop
 		if ((beg_number.to_i > end_number.to_i) && (beg_letter.ord > end_letter.ord)) #ascending to the left
 			traverse_num = (beg_number.to_i - end_number.to_i).abs
 			if traverse_num >= 2
-				count = 1
+				count = 0
 				new_number = beg_number.to_i
 				new_letter = (beg_letter.ord).to_i
 				while traverse_num > count
-					count += 1
+					count = count + 1
 					new_number = new_number - 1
 					new_letter = new_letter - 1
 					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
@@ -627,6 +632,7 @@ class Bishop
 					new_letter = new_letter + 1
 					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
 				end
+				puts kill_array
 				kill_array.each do |x|
 					if x != "*"
 						puts "error, a piece is in front."
