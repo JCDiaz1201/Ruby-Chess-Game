@@ -27,7 +27,6 @@ class Bishop
 			regular_move_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
-			exit
 		end
 	end
 
@@ -188,11 +187,11 @@ class Bishop
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
 		if ((beg_number.to_i > end_number.to_i) && (beg_letter.ord > end_letter.ord)) #ascending to the left
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
 			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
 			return unless traverse_num == traverse_num2
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
 			if traverse_num >= 2
-				count = 0
+				count = 1
 				new_number = beg_number.to_i
 				new_letter = (beg_letter.ord).to_i
 				while traverse_num > count
@@ -231,7 +230,6 @@ class Bishop
 					new_letter = new_letter + 1
 					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
 				end
-				puts kill_array
 				kill_array.each do |x|
 					if x != "*"
 						puts "error, a piece is in front."
@@ -329,3 +327,5 @@ class Bishop
 		end
 	end
 end
+
+
