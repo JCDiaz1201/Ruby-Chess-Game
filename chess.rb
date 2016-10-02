@@ -1,6 +1,7 @@
 require './pawn'
 require './rook'
 require './bishop'
+require './queen'
  
 # here for visualization purposes
 #
@@ -19,14 +20,14 @@ class GameBoardSetup
 
 	def initialize
 		@board_hash = {
-			:a1 => Bishop.new("a1", "White"), :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
-			:b1 => Bishop.new("b1", "White"), :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => "*", :b8 => "*", 
+			:a1 => Pawn.new("a1", "White"), :a2 => "*", :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => "*", :a8 => "*",
+			:b1 => "*", :b2 => "*", :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => Pawn.new("b7", "White"), :b8 => "*", 
 			:c1 => "*", :c2 => "*", :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => "*", :c8 => "*", 
-			:d1 => "*", :d2 => "*", :d3 => "*", :d4 => "*", :d5 => "*", :d6 => "*", :d7 => "*", :d8 => "*",
-			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
+			:d1 => Pawn.new("d1", "White"), :d2 => Pawn.new("d2", "Black"), :d3 => "*", :d4 => Queen.new("d4", "Black"), :d5 => "*", :d6 => "*", :d7 => "*", :d8 => "*",
+			:e1 => "*", :e2 => "*", :e3 => "*", :e4 => Pawn.new("e4", "Black"), :e5 => "*", :e6 => "*", :e7 => "*", :e8 => "*",
 			:f1 => "*", :f2 => "*", :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => "*", :f8 => "*",
 			:g1 => "*", :g2 => "*", :g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => "*", :g8 => "*", 
-			:h1 => Bishop.new("h1", "Black"), :h2 => "*", :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => Bishop.new("h7", "Black"), :h8 => "*"
+			:h1 => "*", :h2 => "*", :h3 => "*", :h4 => "*", :h5 => Pawn.new("h5", "White"), :h6 => "*", :h7 => "*", :h8 => "*"
 		}
 	end
 end
@@ -74,10 +75,6 @@ class Movement
 end
 
 class Knight
-	attr_accessor :name, :value, :current_local, :color
-end
-
-class Queen
 	attr_accessor :name, :value, :current_local, :color
 end
 

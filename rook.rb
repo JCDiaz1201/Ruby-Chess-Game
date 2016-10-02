@@ -39,7 +39,7 @@ class Rook
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-		if ((beg_number.to_i > end_number.to_i) && (beg_letter.to_i == end_letter.to_i)) #check to see if the move reuqestes is a column move downward
+		if ((beg_number.to_i > end_number.to_i) && (beg_letter.to_i == end_letter.to_i)) #check to see if the move requests is a column move downward
 			traverse_num = (beg_number.to_i - end_number.to_i).abs #check to see if the move is equal to or larger than 2
 			if traverse_num >= 2
 				count = 1 # needs to be set so the iterator doesn't check the place where the rook is to move

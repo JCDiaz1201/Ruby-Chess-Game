@@ -1,33 +1,21 @@
-# here for visualization purposes
-#
-# :a1 :b1 :c1 :d1 :e1 :f1 :g1 :h1 #Black Side
-# :a2 :b2 :c2 :d2 :e2 :f2 :g2 :h2
-# :a3 :b3 :c3 :d3 :e3 :f3 :g3 :h3
-# :a4 :b4 :c4 :d4 :e4 :f4 :g4 :h4
-# :a5 :b5 :c5 :d5 :e5 :f5 :g5 :h5
-# :a6 :b6 :c6 :d6 :e6 :f6 :g6 :h6
-# :a7 :b7 :c7 :d7 :e7 :f7 :g7 :h7
-# :a8 :b8 :c8 :d8 :e8 :f8 :g8 :h8 #White Side
-#
-
-
-class Bishop
+class Queen
 	attr_accessor :name, :value, :current_local, :color
 
 	def initialize(current_local, color)
-		@name = "Bishop"
-		@value = 3
+		@name = "Queen"
+		@value = 9
 		@current_local = current_local
 		@color = color
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == "Bishop" 
+		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == "Queen" 
 			kill_move_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == "Bishop" 
+		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == "Queen" 
 			regular_move_test(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Error"
+			exit
 		end
 	end
 
@@ -38,8 +26,210 @@ class Bishop
 		dcstr_end_local = piece_to_where.split("")
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+		
+		if (beg_number.to_i < end_number.to_i) && (beg_letter.ord == end_letter.ord) # column movement north
+			puts "column movement north"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number + 1
+					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
 
-		if ((beg_number.to_i > end_number.to_i) && (beg_letter.ord > end_letter.ord)) #ascending to the left
+		elsif ((beg_number.to_i > end_number.to_i) && (beg_letter.ord < end_letter.ord)) #movement northeast
+			puts "movement northeast"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
+			return unless traverse_num == traverse_num2
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number - 1
+					new_letter = new_letter + 1
+					move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_letter.ord < end_letter.ord) && (beg_number.to_i == end_number.to_i)) # row movement east
+			puts "row movement east"
+			traverse_num = ((beg_letter.ord).to_i - (end_letter.ord).to_i).abs 
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter + 1
+					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else 
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord < end_letter.ord)) #movement southeast
+			puts "movement southeast"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
+			return unless traverse_num == traverse_num2
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number + 1
+					new_letter = new_letter + 1
+					move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif (beg_number.to_i > end_number.to_i) && (beg_letter.ord == end_letter.ord) #column movement south
+			puts "column movement south"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs 
+			if traverse_num >= 2
+				count = 1 
+				new_number = beg_number.to_i
+				while traverse_num > count 
+					count += 1
+					new_number = new_number - 1
+					move_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord > end_letter.ord)) #movement southwest
+			puts "movement southwest"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
+			return unless traverse_num == traverse_num2
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number + 1
+					new_letter = new_letter - 1
+					move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_letter.ord > end_letter.ord) && (beg_number.to_i == end_number.to_i)) # row movement west
+			puts "row movement west"
+			traverse_num = (beg_letter.ord - end_letter.ord).abs
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter - 1
+					move_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				move_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					regular_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else 
+				regular_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_number.to_i > end_number.to_i) && (beg_letter.ord > end_letter.ord)) #movement northwest
+			puts "movement northwest"
 			traverse_num = (beg_number.to_i - end_number.to_i).abs
 			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
 			return unless traverse_num == traverse_num2
@@ -70,94 +260,6 @@ class Bishop
 				regular_move(piece_to_where, gb_arg, piece_to_move)
 			end
 
-		elsif ((beg_number.to_i > end_number.to_i) && (beg_letter.ord < end_letter.ord)) #ascending to the right
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
-			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
-			return unless traverse_num == traverse_num2
-			if traverse_num >= 2
-				count = 1
-				new_number = beg_number.to_i
-				new_letter = (beg_letter.ord).to_i
-				while traverse_num > count
-					count += 1
-					new_number = new_number - 1
-					new_letter = new_letter + 1
-					move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
-				end
-				move_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-						return
-					else
-						error_test = false
-					end
-				end
-				if error_test == false
-					regular_move(piece_to_where, gb_arg, piece_to_move)
-				end
-			else
-				regular_move(piece_to_where, gb_arg, piece_to_move)
-			end
-
-		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord > end_letter.ord)) #descending to the left
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
-			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
-			return unless traverse_num == traverse_num2
-			if traverse_num >= 2
-				count = 1
-				new_number = beg_number.to_i
-				new_letter = (beg_letter.ord).to_i
-				while traverse_num > count
-					count += 1
-					new_number = new_number + 1
-					new_letter = new_letter - 1
-					move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
-				end
-				move_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-						return
-					else
-						error_test = false
-					end
-				end
-				if error_test == false
-					regular_move(piece_to_where, gb_arg, piece_to_move)
-				end
-			else
-				regular_move(piece_to_where, gb_arg, piece_to_move)
-			end
-		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord < end_letter.ord)) #descending to the right
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
-			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
-			return unless traverse_num == traverse_num2
-			if traverse_num >= 2
-				count = 1
-				new_number = beg_number.to_i
-				new_letter = (beg_letter.ord).to_i
-				while traverse_num > count
-					count += 1
-					new_number = new_number + 1
-					new_letter = new_letter + 1
-					move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
-				end
-				move_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-						return
-					else
-						error_test = false
-					end
-				end
-				if error_test == false
-					regular_move(piece_to_where, gb_arg, piece_to_move)
-				end
-			else
-				regular_move(piece_to_where, gb_arg, piece_to_move)
-			end
 		else
 			puts "Invalid move for the #{self.name} #{self.color}"
 		end
@@ -169,147 +271,255 @@ class Bishop
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-
-		if (((beg_letter.ord).to_i < (end_letter.ord).to_i) && ((end_number.to_i >= 1) && (end_number.to_i <= 8))) || (((beg_letter.ord).to_i > (end_letter.ord).to_i) && ((end_number.to_i >= 1) && (end_number.to_i <= 8)))
-			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
-			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
-			gb_arg.board_hash[piece_to_move.to_sym] = "*"
-		else
-			puts "Invalid move for the #{self.name} #{self.color}"
-		end
+		gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
+		gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
+		gb_arg.board_hash[piece_to_move.to_sym] = "*"
 	end
 
 	def kill_move_test(piece_to_where, gb_arg, piece_to_move)
-		kill_array = []
 		error_test = false
+		kill_array = []
 		dcstr_beg_local = current_local.split("")
 		dcstr_end_local = piece_to_where.split("")
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
-
-		if ((beg_number.to_i > end_number.to_i) && (beg_letter.ord > end_letter.ord)) #ascending to the left
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
-			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
-			return unless traverse_num == traverse_num2
-			if traverse_num >= 2
-				count = 1
-				new_number = beg_number.to_i
-				new_letter = (beg_letter.ord).to_i
-				while traverse_num > count
-					count = count + 1
-					new_number = new_number - 1
-					new_letter = new_letter - 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
-				end
-				kill_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-						return
-					else
-						error_test = false
-					end
-				end
-				if error_test == false
-					kill_move(piece_to_where, gb_arg, piece_to_move)
-				end
-			else
-				kill_move(piece_to_where, gb_arg, piece_to_move)
-			end
-
-		elsif ((beg_number.to_i > end_number.to_i) && (beg_letter.ord < end_letter.ord)) #ascending to the right
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
-			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
-			return unless traverse_num == traverse_num2
-			if traverse_num >= 2
-				count = 1
-				new_number = beg_number.to_i
-				new_letter = (beg_letter.ord).to_i
-				while traverse_num > count
-					count += 1
-					new_number = new_number - 1
-					new_letter = new_letter + 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
-				end
-				kill_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-						return
-					else
-						error_test = false
-					end
-				end
-				if error_test == false
-					kill_move(piece_to_where, gb_arg, piece_to_move)
-				end
-			else
-				kill_move(piece_to_where, gb_arg, piece_to_move)
-			end
-
-		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord > end_letter.ord)) #descending to the left
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
-			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
-			return unless traverse_num == traverse_num2
-			if traverse_num >= 2
-				count = 1
-				new_number = beg_number.to_i
-				new_letter = (beg_letter.ord).to_i
-				while traverse_num > count
-					count += 1
-					new_number = new_number + 1
-					new_letter = new_letter - 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
-				end
-				kill_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-						return
-					else
-						error_test = false
-					end
-				end
-				if error_test == false
-					kill_move(piece_to_where, gb_arg, piece_to_move)
-				end
-			else
-				kill_move(piece_to_where, gb_arg, piece_to_move)
-			end
-		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord < end_letter.ord)) #descending to the right
-			traverse_num = (beg_number.to_i - end_number.to_i).abs
-			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
-			return unless traverse_num == traverse_num2
-			if traverse_num >= 2
-				count = 1
-				new_number = beg_number.to_i
-				new_letter = (beg_letter.ord).to_i
-				while traverse_num > count
-					count += 1
-					new_number = new_number + 1
-					new_letter = new_letter + 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
-				end
-				kill_array.each do |x|
-					if x != "*"
-						puts "error, a piece is in front."
-						error_test = true
-						return
-					else
-						error_test = false
-					end
-				end
-				if error_test == false
-					kill_move(piece_to_where, gb_arg, piece_to_move)
-				end
-			else
-				kill_move(piece_to_where, gb_arg, piece_to_move)
-			end
-		else
-			puts "Something went wrong"
-		end
-
 		
+		if (beg_number.to_i < end_number.to_i) && (beg_letter.ord == end_letter.ord) # column movement north
+			puts "column movement north"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number + 1
+					kill_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_number.to_i > end_number.to_i) && (beg_letter.ord < end_letter.ord)) #movement northeast
+			puts "movement northeast"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
+			return unless traverse_num == traverse_num2
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number - 1
+					new_letter = new_letter + 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_letter.ord < end_letter.ord) && (beg_number.to_i == end_number.to_i)) # row movement east
+			puts "row movement east"
+			traverse_num = ((beg_letter.ord).to_i - (end_letter.ord).to_i).abs 
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter + 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else 
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord < end_letter.ord)) #movement southeast
+			puts "movement southeast"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
+			return unless traverse_num == traverse_num2
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number + 1
+					new_letter = new_letter + 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif (beg_number.to_i > end_number.to_i) && (beg_letter.ord == end_letter.ord) #column movement south
+			puts "column movement south"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs 
+			if traverse_num >= 2
+				count = 1 
+				new_number = beg_number.to_i
+				while traverse_num > count 
+					count += 1
+					new_number = new_number - 1
+					kill_array.push(gb_arg.board_hash[(beg_letter + new_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_number.to_i < end_number.to_i) && (beg_letter.ord > end_letter.ord)) #movement southwest
+			puts "movement southwest"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
+			return unless traverse_num == traverse_num2
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number + 1
+					new_letter = new_letter - 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_letter.ord > end_letter.ord) && (beg_number.to_i == end_number.to_i)) # row movement west
+			puts "row movement west"
+			traverse_num = (beg_letter.ord - end_letter.ord).abs
+			if traverse_num >= 2	
+				count = 1
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_letter = new_letter - 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + end_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "Error, there is a piece in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else 
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		elsif ((beg_number.to_i > end_number.to_i) && (beg_letter.ord > end_letter.ord)) #movement northwest
+			puts "movement northwest"
+			traverse_num = (beg_number.to_i - end_number.to_i).abs
+			traverse_num2 = (beg_letter.ord - end_letter.ord).abs
+			return unless traverse_num == traverse_num2
+
+			if traverse_num >= 2
+				count = 1
+				new_number = beg_number.to_i
+				new_letter = (beg_letter.ord).to_i
+				while traverse_num > count
+					count += 1
+					new_number = new_number - 1
+					new_letter = new_letter - 1
+					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+				end
+				kill_array.each do |x|
+					if x != "*"
+						puts "error, a piece is in front."
+						error_test = true
+						return
+					else
+						error_test = false
+					end
+				end
+				if error_test == false
+					kill_move(piece_to_where, gb_arg, piece_to_move)
+				end
+			else
+				kill_move(piece_to_where, gb_arg, piece_to_move)
+			end
+
+		else
+			puts "Invalid move for the #{self.name} #{self.color}"
+		end
 	end
 
 	def kill_move(piece_to_where, gb_arg, piece_to_move)
@@ -328,5 +538,11 @@ class Bishop
 		end
 	end
 end
+
+
+
+
+
+
 
 
