@@ -21,13 +21,12 @@ class Rook
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
-		if kill_test == true && gb_arg.board_hash[piece_to_move.to_sym].name == "Rook" #|| gb_arg.board_hash[piece_to_move.to_sym] == "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == "Queen"
+		if kill_test == true 
 			kill_move_test(piece_to_where, gb_arg, piece_to_move)
-		elsif kill_test == false && gb_arg.board_hash[piece_to_move.to_sym].name == "Rook" #|| (gb_arg.board_hash[piece_to_move.to_sym] == "Bishop" || gb_arg.board_hash[piece_to_move.to_sym] == "Queen"
+		elsif kill_test == false
 			regular_move_test(piece_to_where, gb_arg, piece_to_move)
 		else
-			puts "Error"
-			exit
+			puts "An error occured, please retry your move again... "
 		end
 	end
 
@@ -298,3 +297,5 @@ class Rook
 		end
 	end
 end
+
+
