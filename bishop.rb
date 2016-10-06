@@ -12,13 +12,21 @@
 
 
 class Bishop
-	attr_accessor :name, :value, :current_local, :color
+	attr_accessor :name, :value, :current_local, :color, :piece_display
 
 	def initialize(current_local, color)
 		@name = "Bishop"
 		@value = 3
 		@current_local = current_local
 		@color = color
+
+		if color == "Black"
+			@piece_display = piece_display
+			piece_display = "\u265D"
+		else
+			@piece_display = piece_display
+			piece_display = "\u2657"
+		end
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)

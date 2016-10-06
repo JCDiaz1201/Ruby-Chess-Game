@@ -1,11 +1,18 @@
 class Queen
-	attr_accessor :name, :value, :current_local, :color
+	attr_accessor :name, :value, :current_local, :color, :piece_display
 
 	def initialize(current_local, color)
 		@name = "Queen"
 		@value = 9
 		@current_local = current_local
 		@color = color
+		@piece_display = piece_display
+
+		if color == "Black"
+			piece_display = "\u265B"
+		else
+			piece_display = "\u2655"
+		end
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)

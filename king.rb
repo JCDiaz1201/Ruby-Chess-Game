@@ -1,11 +1,18 @@
 class King
-	attr_accessor :name, :value, :current_local, :color
+	attr_accessor :name, :value, :current_local, :color, :piece_display
 
 	def initialize(current_local, color)
 		@name = "King"
 		@value = 1000
 		@current_local = current_local
 		@color = color
+		@piece_display = piece_display
+
+		if color == "Black"
+			piece_display = "\u265A"
+		else
+			piece_display = "\u2654"
+		end
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
