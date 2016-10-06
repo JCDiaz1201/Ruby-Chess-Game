@@ -21,9 +21,9 @@ class Pawn
 		@piece_display = piece_display
 
 		if color == "Black"
-			piece_display = "\u265F"
+			@piece_display = "\u265F"
 		else
-			piece_display = "\u2659"
+			@piece_display = "\u2659"
 		end
 	end
 

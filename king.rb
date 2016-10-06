@@ -9,9 +9,9 @@ class King
 		@piece_display = piece_display
 
 		if color == "Black"
-			piece_display = "\u265A"
+			@piece_display = "\u265A"
 		else
-			piece_display = "\u2654"
+			@piece_display = "\u2654"
 		end
 	end
 

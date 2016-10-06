@@ -19,13 +19,12 @@ class Bishop
 		@value = 3
 		@current_local = current_local
 		@color = color
+		@piece_display = piece_display
 
 		if color == "Black"
-			@piece_display = piece_display
-			piece_display = "\u265D"
+			@piece_display = "\u265D"
 		else
-			@piece_display = piece_display
-			piece_display = "\u2657"
+			@piece_display = "\u2657"
 		end
 	end
 

@@ -9,9 +9,9 @@ class Queen
 		@piece_display = piece_display
 
 		if color == "Black"
-			piece_display = "\u265B"
+			@piece_display = "\u265B"
 		else
-			piece_display = "\u2655"
+			@piece_display = "\u2655"
 		end
 	end
 

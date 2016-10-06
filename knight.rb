@@ -9,9 +9,9 @@ class Knight
 		@piece_display = piece_display
 
 		if color == "Black"
-			piece_display = "\u265E"
+			@piece_display = "\u265E"
 		else
-			piece_display = "\u2658"
+			@piece_display = "\u2658"
 		end
 	end
 

@@ -21,10 +21,12 @@ class Rook
 		@piece_display = piece_display
 
 		if color == "Black"
-			piece_display = "\u265C"
+			@piece_display = "\u265C"
 		else
-			piece_display = "\u2656"
+			@piece_display = "\u2656"
 		end
+
+
 	end
 
 	def allowed_moves(piece_to_where, gb_arg, kill_test, piece_to_move)
