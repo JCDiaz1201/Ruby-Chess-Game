@@ -20,19 +20,6 @@ require './king'
 class GameBoardSetup
 	attr_accessor :board_hash
 
-#	def initialize
-#		@board_hash = {
-#			:a1 => Rook.new("a1", "Black"), :a2 => Pawn.new("a2", "Black"), :a3 => "*", :a4 => "*", :a5 => "*", :a6 => "*", :a7 => Pawn.new("a7", "White"), :a8 => Rook.new("a8", "White"),
-#			:b1 => Knight.new("b1", "Black"), :b2 => Pawn.new("b2", "Black"), :b3 => "*", :b4 => "*", :b5 => "*", :b6 => "*", :b7 => Pawn.new("b7", "White"), :b8 => Knight.new("b8", "White"), 
-#			:c1 => Bishop.new("c1", "Black"), :c2 => Pawn.new("c2", "Black"), :c3 => "*", :c4 => "*", :c5 => "*", :c6 => "*", :c7 => Pawn.new("c7", "White"), :c8 => Bishop.new("c8", "White"), 
-#			:d1 => King.new("d1", "Black"), :d2 => Pawn.new("d2", "Black"), :d3 => "*", :d4 => "*", :d5 => "*", :d6 => "*", :d7 => Pawn.new("d7", "White"), :d8 => Queen.new("d8", "White"),
-#			:e1 => Queen.new("e1", "Black"), :e2 => Pawn.new("e2", "Black"), :e3 => "*", :e4 => "*", :e5 => "*", :e6 => "*", :e7 => Pawn.new("e7", "White"), :e8 => King.new("e8", "White"),
-#			:f1 => Bishop.new("f1", "Black"), :f2 => Pawn.new("f2", "Black"), :f3 => "*", :f4 => "*", :f5 => "*", :f6 => "*", :f7 => Pawn.new("f7", "White"), :f8 => Bishop.new("f8", "White"),
-#			:g1 => Knight.new("g1", "Black"), :g2 => Pawn.new("g2", "Black"), :g3 => "*", :g4 => "*", :g5 => "*", :g6 => "*", :g7 => Pawn.new("g7", "White"), :g8 => Knight.new("g8", "White"), 
-#			:h1 => Rook.new("h1", "Black"), :h2 => Pawn.new("h2", "Black"), :h3 => "*", :h4 => "*", :h5 => "*", :h6 => "*", :h7 => Pawn.new("h7", "White"), :h8 => Rook.new("h8", "White")
-#		}
-#	end
-
 	def initialize
 		@board_hash = {
 			:empty => "+", :a => "a", :b => "b", :c => "c", :d => "d", :e => "e", :f => "f", :g => "g", :h => "h",
@@ -78,6 +65,7 @@ class Movement
 
 	def initialize
 		@game_board = GameBoardSetup.new
+		@count_test = 0
 	end
 
 	def main_menu
@@ -86,13 +74,13 @@ class Movement
 		puts 
 		puts "Instuctions:"
 		puts "Please select the piece you would like to move by the its place on the board."
-		puts "For example if a rook is on a2, enter in 'a2'"
-		puts "In order to move a piece once it is selected please select the place a place on the board"
-		puts "you would like to move your selected piece." 
+		puts "For example if a rook is on a2, enter in 'a2' to select that rook."
+		puts "In order to move the piece you selected please elect a place on the board"
+		puts "you would like to move to." 
 		puts "For example, if you would like to move to space g6 enter in 'g6'."
 		puts
 		puts "Have fun please enter in the word 'play' in order to start the game!"
-		puts "To exit the game just type exit."
+		puts "To exit the game press 'ctrl + D'."
 
 		player_selection = gets.chomp!
 		if player_selection == 'play'
@@ -104,16 +92,33 @@ class Movement
 	end
 
 	def starting_spot 
-		self.game_board.display_board
+		if (@count_test % 2) == 0
+			turn_test = true
+			puts
+			puts "Black Player's Turn"
+		else
+			turn_test = false
+			puts
+			puts "White Player's Turn"
+		end
 
+		self.game_board.display_board
+		puts
 		puts "Please select a unit on the board..."
 		piece_to_move = gets.chomp!
 
-		if self.game_board.board_hash[piece_to_move.to_sym] == "*"
+		if self.game_board.board_hash[piece_to_move.to_sym].nil? || self.game_board.board_hash[piece_to_move.to_sym] =~ (/./)
 			puts "Please select a valid piece that is in play"
 			starting_spot
-		else
+		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "Black") && (turn_test == true))
 			end_spot(piece_to_move)
+		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "White") && (turn_test == false))
+			end_spot(piece_to_move)
+		elsif piece_to_move == "exit"
+			exit				
+		else
+			puts "An error occurred please make sure the correct player is utilizing their turn."
+			starting_spot
 		end
 	end
 
@@ -130,10 +135,12 @@ class Movement
 		elsif self.game_board.board_hash[piece_to_where.to_sym] != "*"
 			kill_test = true
 			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
+			@count_test + @count_test + 1
 			starting_spot
 		else
 			kill_test = false
 			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
+			@count_test = @count_test + 1
 			starting_spot
 		end
 	end
