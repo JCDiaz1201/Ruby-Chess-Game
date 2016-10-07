@@ -93,18 +93,19 @@ class Movement
 
 	def starting_spot 
 		if (@count_test % 2) == 0
-			turn_test = true
-			puts
-			puts "Black Player's Turn"
-		else
 			turn_test = false
 			puts
 			puts "White Player's Turn"
+		else
+			turn_test = true
+			puts
+			puts "Black Player's Turn"
 		end
 
 		self.game_board.display_board
 		puts
 		puts "Please select a unit on the board..."
+
 		piece_to_move = gets.chomp!
 
 		if self.game_board.board_hash[piece_to_move.to_sym].nil? || self.game_board.board_hash[piece_to_move.to_sym] =~ (/./)
