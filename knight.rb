@@ -3,7 +3,7 @@ class Knight
 
 	def initialize(current_local, color)
 		@name = "Knight"
-		@value = 3
+		@value = 2
 		@current_local = current_local
 		@color = color
 		@piece_display = piece_display
@@ -31,7 +31,7 @@ class Knight
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-		if (((((beg_letter.ord.to_i) - (end_letter.ord.to_i)).abs == 3) && ((beg_number.to_i - end_number.to_i).abs == 1)) || (((beg_letter.ord - end_letter.ord).abs == 1) && ((beg_number.to_i - end_number.to_i).abs == 3)))
+		if (((((beg_letter.ord.to_i) - (end_letter.ord.to_i)).abs == 2) && ((beg_number.to_i - end_number.to_i).abs == 1)) || (((beg_letter.ord - end_letter.ord).abs == 1) && ((beg_number.to_i - end_number.to_i).abs == 2)))
 			regular_move(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Please select a valid move for the #{self.color} #{self.name}"
@@ -44,7 +44,7 @@ class Knight
 		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
 		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
 
-		if (((((beg_letter.ord.to_i) - (end_letter.ord.to_i)).abs == 3) && ((beg_number.to_i - end_number.to_i).abs == 1)) || (((beg_letter.ord - end_letter.ord).abs == 1) && ((beg_number.to_i - end_number.to_i).abs == 3)))
+		if (((((beg_letter.ord.to_i) - (end_letter.ord.to_i)).abs == 2) && ((beg_number.to_i - end_number.to_i).abs == 1)) || (((beg_letter.ord - end_letter.ord).abs == 1) && ((beg_number.to_i - end_number.to_i).abs == 2)))
 			kill_move(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Please select a valid move for the #{self.color} #{self.name}"
@@ -68,3 +68,5 @@ class Knight
 		end
 	end
 end
+
+
