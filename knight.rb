@@ -25,13 +25,16 @@ class Knight
 		end
 	end
 
-	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
+	def setup(piece_to_where)
 		dcstr_beg_local = current_local.split("")
 		dcstr_end_local = piece_to_where.split("")
-		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
-		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+		@beg_letter, @beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+		@end_letter, @end_number = dcstr_end_local[0], dcstr_end_local[1]
+	end
 
-		if (((((beg_letter.ord.to_i) - (end_letter.ord.to_i)).abs == 2) && ((beg_number.to_i - end_number.to_i).abs == 1)) || (((beg_letter.ord - end_letter.ord).abs == 1) && ((beg_number.to_i - end_number.to_i).abs == 2)))
+	def regular_move_test(piece_to_where, gb_arg, piece_to_move)
+		setup(piece_to_where)
+		if (((((@beg_letter.ord.to_i) - (@end_letter.ord.to_i)).abs == 2) && ((@beg_number.to_i - @end_number.to_i).abs == 1)) || (((@beg_letter.ord - @end_letter.ord).abs == 1) && ((@beg_number.to_i - @end_number.to_i).abs == 2)))
 			regular_move(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Please select a valid move for the #{self.color} #{self.name}"
@@ -39,12 +42,8 @@ class Knight
 	end
 
 	def kill_move_test(piece_to_where, gb_arg, piece_to_move)
-		dcstr_beg_local = current_local.split("")
-		dcstr_end_local = piece_to_where.split("")
-		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
-		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
-
-		if (((((beg_letter.ord.to_i) - (end_letter.ord.to_i)).abs == 2) && ((beg_number.to_i - end_number.to_i).abs == 1)) || (((beg_letter.ord - end_letter.ord).abs == 1) && ((beg_number.to_i - end_number.to_i).abs == 2)))
+		setup(piece_to_where)
+		if (((((@beg_letter.ord.to_i) - (@end_letter.ord.to_i)).abs == 2) && ((@beg_number.to_i - @end_number.to_i).abs == 1)) || (((@beg_letter.ord - @end_letter.ord).abs == 1) && ((@beg_number.to_i - @end_number.to_i).abs == 2)))
 			kill_move(piece_to_where, gb_arg, piece_to_move)
 		else
 			puts "Please select a valid move for the #{self.color} #{self.name}"

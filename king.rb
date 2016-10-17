@@ -26,13 +26,18 @@ class King
 		end
 	end
 
-	def regular_move(piece_to_where, gb_arg, piece_to_move)
+	def setup(piece_to_where)
 		dcstr_beg_local = current_local.split("")
 		dcstr_end_local = piece_to_where.split("")
-		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
-		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+		@beg_letter, @beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
+		@end_letter, @end_number = dcstr_end_local[0], dcstr_end_local[1]
+	end
 
-		if (end_number.to_i - beg_number.to_i).abs == 1 || ((beg_letter.ord) - (end_letter.ord)).abs == 1
+	def regular_move(piece_to_where, gb_arg, piece_to_move)
+
+		setup(piece_to_where)
+
+		if ((@end_number.to_i - @beg_number.to_i).abs == 1 || ((@beg_letter.ord) - (@end_letter.ord)).abs == 1) || ((@end_number.to_i - @beg_number.to_i).abs == 1) && (((@beg_letter.ord) - (@end_letter.ord)).abs == 1)
 			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
 			gb_arg.board_hash[piece_to_move.to_sym] = "*"
@@ -42,12 +47,10 @@ class King
 	end
 
 	def kill_move(piece_to_where, gb_arg, piece_to_move)
-		dcstr_beg_local = current_local.split("")
-		dcstr_end_local = piece_to_where.split("")
-		beg_letter, beg_number = dcstr_beg_local[0], dcstr_beg_local[1]
-		end_letter, end_number = dcstr_end_local[0], dcstr_end_local[1]
+
+		setup(piece_to_where)
 	
-		if ((end_number.to_i - beg_number.to_i).abs == 1 || ((beg_letter.ord) - (end_letter.ord)).abs == 1) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color)
+		if (((@end_number.to_i - @beg_number.to_i).abs == 1 || ((@beg_letter.ord) - (@end_letter.ord)).abs == 1) || ((@end_number.to_i - @beg_number.to_i).abs == 1) && (((@beg_letter.ord) - (@end_letter.ord)).abs == 1)) && (self.color != gb_arg.board_hash[piece_to_where.to_sym].color)
 			puts "#{self.color} #{self.name} takes #{gb_arg.board_hash[piece_to_where.to_sym].color} #{gb_arg.board_hash[piece_to_where.to_sym].name}"
 			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
