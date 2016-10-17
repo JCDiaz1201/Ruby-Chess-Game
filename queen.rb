@@ -231,7 +231,7 @@ class Queen
 				while traverse_num > count
 					count += 1
 					new_number = new_number + 1
-					kill_array.push(gb_arg.board_hash[(@beg_letter + new_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(@beg_letter + new_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
@@ -253,7 +253,7 @@ class Queen
 					count += 1
 					new_number = new_number - 1
 					new_letter = new_letter + 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
@@ -271,7 +271,7 @@ class Queen
 				while traverse_num > count
 					count += 1
 					new_letter = new_letter + 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + @end_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(new_letter.chr + @end_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
@@ -293,7 +293,7 @@ class Queen
 					count += 1
 					new_number = new_number + 1
 					new_letter = new_letter + 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
@@ -311,7 +311,7 @@ class Queen
 				while traverse_num > count 
 					count += 1
 					new_number = new_number - 1
-					kill_array.push(gb_arg.board_hash[(@beg_letter + new_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(@beg_letter + new_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
@@ -333,7 +333,7 @@ class Queen
 					count += 1
 					new_number = new_number + 1
 					new_letter = new_letter - 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
@@ -351,7 +351,7 @@ class Queen
 				while traverse_num > count
 					count += 1
 					new_letter = new_letter - 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + @end_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(new_letter.chr + @end_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
@@ -374,7 +374,7 @@ class Queen
 					count += 1
 					new_number = new_number - 1
 					new_letter = new_letter - 1
-					kill_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
+					@move_array.push(gb_arg.board_hash[(new_letter.chr + new_number.to_s).to_sym])
 				end
 				check_trajectory
 				if @error_test == false
