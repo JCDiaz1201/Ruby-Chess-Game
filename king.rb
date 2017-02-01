@@ -1,6 +1,6 @@
 class King
 	attr_accessor :name, :value, :current_local, :color, :piece_display
-
+ 
 	def initialize(current_local, color)
 		@name = "King"
 		@value = 1000
