@@ -55,8 +55,8 @@ class GameBoardSetup
 				end
 			end
 
-		game_array.each do |row_array|
-			puts row_array.join(" ")
+		game_array.each do |row|
+			puts row.join(" ")
 		end
 	end
 end
