@@ -39,15 +39,15 @@ class GameBoardSetup
 		row_array = []
 		game_array = []
 
-		@board_hash.each_with_index do | (k, v), index |
-			if v =~ (/\w|\+|\*/)
-			  row_array << v
+		@board_hash.each_with_index do | (key, value), index |
+			if value =~ (/\w|\+|\*/)
+			  row_array << value
 				if (index + 1) % 9 == 0
 					game_array << row_array
 					row_array = []
 				end
 			else
-				row_array << v.piece_display
+				row_array << value.piece_display
 					if (index + 1) % 9 == 0
 						game_array << row_array
 						row_array = []
