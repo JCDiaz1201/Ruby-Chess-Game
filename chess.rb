@@ -67,6 +67,7 @@ class Movement
 	def initialize
 		@game_board = GameBoardSetup.new
 		@count_test = 0
+		@player_turn_count = 0
 	end
 
 	def main_menu
@@ -93,15 +94,14 @@ class Movement
 	end
 
 	def starting_spot 
-		# if (@count_test % 2) == 0
-		# 	turn_test = false
-		# 	puts "White Player's Turn"
-		# 	puts
-		# else
-		# 	turn_test = true
-		# 	puts "Black Player's Turn"
-		# 	puts
-		# end
+
+		if (@player_turn_count % 2 == 0)
+			puts
+			puts "It is the player white's turn"
+		else
+			puts
+			puts "It is the player black's turn"
+		end
 
 		self.game_board.display_board
 		puts
@@ -111,11 +111,14 @@ class Movement
 		if self.game_board.board_hash[piece_to_move.to_sym].nil? || self.game_board.board_hash[piece_to_move.to_sym] =~ (/./)
 			puts "Please select a valid piece that is in play"
 			starting_spot
-		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "Black")) #&& (turn_test == true))
+		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "Black")) && (@player_turn_count % 2 == 0)
+			@player_turn_count += 1
 			end_spot(piece_to_move)
-		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "White")) #&& (turn_test == false))
+		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "White")) && (@player_turn_count % 2 == 1)
+			@player_turn_count += 1
 			end_spot(piece_to_move)				
 		else
+			puts
 			puts "An error occurred please make sure the correct player is utilizing their turn."
 			starting_spot
 		end
@@ -128,6 +131,7 @@ class Movement
 		puts 
 
 		if piece_to_where == "another"
+			@player_turn_count -= 1
 			starting_spot
 		elsif self.game_board.board_hash[piece_to_where.to_sym].nil?
 			puts "Error, please select a valid spot on the board"
