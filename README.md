@@ -6,7 +6,9 @@ Develope and deploy a Chess game in Ruby utilizing Object Oriented Programming p
 
 What was Learned
 ----------------
-How to make objects accross
+How to make objects accross a litany of files interact seamlessly
+
+I can do a lot more than I thought, I only need to step out of my comfort zone
 
 Getting Started
 ---------------
