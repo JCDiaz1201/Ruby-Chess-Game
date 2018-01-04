@@ -1,3 +1,4 @@
+#require 'sinatra'
 require './pawn'
 require './knight'
 require './rook'
@@ -75,8 +76,9 @@ class Movement
 		puts "Hello and welcome to JD's chess game!"
 		puts 
 		puts "Instuctions:"
-		puts "Please select the piece you would like to move by the its place on the board."
+		puts "Please select the piece you would like to move by its place on the board."
 		puts "For example if a rook is on a2, enter in 'a2' to select that rook."
+		puts
 		puts "In order to move the piece you selected please elect a place on the board"
 		puts "you would like to move to." 
 		puts "For example, if you would like to move to space g6 enter in 'g6'."
@@ -94,7 +96,6 @@ class Movement
 	end
 
 	def starting_spot 
-
 		if (@player_turn_count % 2 == 0)
 			puts
 			puts "It is the player white's turn"
@@ -109,7 +110,7 @@ class Movement
 		piece_to_move = gets.chomp!
 
 		if self.game_board.board_hash[piece_to_move.to_sym].nil? || self.game_board.board_hash[piece_to_move.to_sym] =~ (/./)
-			puts "Please select a valid piece that is in play"
+			puts "***Please select a valid piece that is in play***"
 			starting_spot
 		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "Black")) && (@player_turn_count % 2 == 0)
 			@player_turn_count += 1
@@ -119,7 +120,7 @@ class Movement
 			end_spot(piece_to_move)				
 		else
 			puts
-			puts "An error occurred please make sure the correct player is utilizing their turn."
+			puts "***An error occurred please make sure the correct player is utilizing their turn.***"
 			starting_spot
 		end
 	end
@@ -134,7 +135,7 @@ class Movement
 			@player_turn_count -= 1
 			starting_spot
 		elsif self.game_board.board_hash[piece_to_where.to_sym].nil?
-			puts "Error, please select a valid spot on the board"
+			puts "***Error, please select a valid spot on the board***"
 			end_spot(piece_to_move)
 		elsif self.game_board.board_hash[piece_to_where.to_sym] != "*"
 			kill_test = true
@@ -148,8 +149,11 @@ class Movement
 	end
 end
 
+
 game_one = Movement.new
 game_one.main_menu
+
+
 
 
 
