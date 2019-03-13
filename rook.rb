@@ -1,3 +1,5 @@
+require './utils'
+
 # here for visualization purposes
 #
 # :a1 :b1 :c1 :d1 :e1 :f1 :g1 :h1 #Black Side

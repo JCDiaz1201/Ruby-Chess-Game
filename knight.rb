@@ -1,3 +1,5 @@
+require './utils'
+
 class Knight
 	attr_accessor :name, :value, :current_local, :color, :piece_display
 
