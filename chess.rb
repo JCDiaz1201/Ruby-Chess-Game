@@ -72,7 +72,6 @@ class Movement
 	def initialize
 		@game_board = GameBoardSetup.new
 		@count_test = 0
-		# @player_turn_count = 0
 	end
 
 	def main_menu
@@ -93,20 +92,19 @@ class Movement
 		player_selection = gets.chomp!
 		if player_selection == 'play'
 			puts
+			clear_screen
 			starting_spot
 		else
 			exit
 		end
 	end
 
+	def clear_screen
+		puts "\e[H\e[2J"	
+	end
+
 	def starting_spot 
-		# if ((@player_turn_count % 2) == 0)
-		# 	puts
-		# 	puts "It is the player white's turn"
-		# else
-		# 	puts
-		# 	puts "It is the player black's turn"
-		# end
+
 
 		self.game_board.display_board
 		puts
@@ -115,16 +113,16 @@ class Movement
 
 		if self.game_board.board_hash[piece_to_move.to_sym].nil? || self.game_board.board_hash[piece_to_move.to_sym] =~ (/./)
 			puts "***Please select a valid piece that is in play***"
+			
 			starting_spot
-		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "Black")) #&& (@player_turn_count % 2 == 0)
-			#@player_turn_count += 1
+		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "Black"))
 			end_spot(piece_to_move)
-		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "White")) #&& (@player_turn_count % 2 == 1)
-			#@player_turn_count += 1
+		elsif ((self.game_board.board_hash[piece_to_move.to_sym].color == "White")) 
 			end_spot(piece_to_move)				
 		else
 			puts
 			puts "***An error occurred please make sure the correct player is utilizing their turn.***"
+			
 			starting_spot
 		end
 	end
@@ -137,17 +135,21 @@ class Movement
 
 		if piece_to_where == "another"
 			#@player_turn_count -= 1
+			clear_screen
 			starting_spot
 		elsif self.game_board.board_hash[piece_to_where.to_sym].nil?
 			puts "***Error, please select a valid spot on the board***"
+			clear_screen
 			end_spot(piece_to_move)
 		elsif self.game_board.board_hash[piece_to_where.to_sym] != "*"
 			kill_test = true
 			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
+			clear_screen
 			starting_spot
 		else
 			kill_test = false
 			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
+			clear_screen
 			starting_spot
 		end
 	end
