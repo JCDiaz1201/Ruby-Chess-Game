@@ -129,21 +129,17 @@ class Movement
 
 		if piece_to_where == "another"
 			#@player_turn_count -= 1
-			clear_screen
 			starting_spot
 		elsif self.game_board.board_hash[piece_to_where.to_sym].nil?
 			puts "***Error, please select a valid spot on the board***"
-			clear_screen
 			end_spot(piece_to_move)
 		elsif self.game_board.board_hash[piece_to_where.to_sym] != "*"
 			kill_test = true
 			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
-			clear_screen
 			starting_spot
 		else
 			kill_test = false
 			self.game_board.board_hash[piece_to_move.to_sym].allowed_moves(piece_to_where, @game_board, kill_test, piece_to_move)
-			clear_screen
 			starting_spot
 		end
 	end

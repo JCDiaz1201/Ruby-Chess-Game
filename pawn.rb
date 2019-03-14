@@ -57,7 +57,9 @@ class Pawn
 			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
 			gb_arg.board_hash[piece_to_move.to_sym] = "*"
+			clear_screen
 		else
+			clear_screen
 			puts "*********** Please select a valid move for the #{self.color} #{self.name} ***********"
 		end
 	end
@@ -74,7 +76,9 @@ class Pawn
 			gb_arg.board_hash[piece_to_where.to_sym] = gb_arg.board_hash[piece_to_move.to_sym]
 			gb_arg.board_hash[piece_to_where.to_sym].current_local = piece_to_where
 			gb_arg.board_hash[piece_to_move.to_sym] = "*"
+			clear_screen
 		else
+			clear_screen
 			puts "*********** Please select a valid attack move for the #{self.color} #{self.name} ***********"
 		end
 	end
